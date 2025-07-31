@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华数i家业务数据周报</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c6fbb;
+            --primary-dark: #1a4a8c;
+            --primary-light: #e3f2fd;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --success-light: #e8f5e9;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --danger-light: #ffebee;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --gray-light: #ecf0f1;
+            --border: #dfe6e9;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .edit-item input[type="number"] {
+            width: 65px; /* 可根据需要调整具体数值 */
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        
+        .edit-item input[type=number]::-webkit-outer-spin-button,
+        .edit-item input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Chrome, Safari, Edge */
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px 40px;
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .header-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .header-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 300px;
+        }
+
+        .date-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .date-controls label {
+            font-weight: 500;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .date-controls input {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--success), #219653);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, var(--warning), #e67e22);
+            color: white;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--secondary), #2980b9);
+            color: white;
+            padding: 22px 30px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .data-table th {
+            background-color: var(--primary-light);
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .data-table tr {
+            background: var(--light);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .change-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .positive {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+
+        .negative {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--danger);
+        }
+
+        .neutral {
+            background: rgba(108, 117, 125, 0.15);
+            color: var(--gray);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0 20px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(52, 152, 219, 0.2);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 数据编辑区域 */
+        .data-edit-area {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .data-edit-area h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .edit-item {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .edit-item label {
+            width: 140px;
+            flex-shrink: 0;
+            text-align: right;
+        }
+
+        .edit-item input {
+            width: 90px;
+            padding: 4px 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .edit-item .last-week {
+            background: #f0f0f0;
+            color: #888;
+        }
+
+        .hide-on-export {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">正在生成报告，请稍候...</div>
+    </div>
+
+    <!-- 数据编辑区域 -->
+    <div class="data-edit-area hide-on-export" id="data-edit-area">
+        <h3>数据编辑区域（导出时将隐藏）</h3>
+        <div class="edit-grid" id="edit-container"></div>
+        <button class="btn btn-primary" id="apply-data">应用更新</button>
+    </div>
+
+    <div class="container" id="report-content">
+        <header>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>华数i家业务数据周报</h1>
+                    <p class="subtitle" , id="subtitle">数据截止：2025年7月25日 | 洞察业务增长新趋势</p>
+                </div>
+                <div class="header-controls">
+                    <div class="date-controls">
+                        <label for="report-date">报告日期：</label>
+                        <input type="date" id="report-date" value="2025-07-18">
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary" id="export-pdf">
+                            <i class="fas fa-file-pdf"></i> 导出PDF
+                        </button>
+                        <button class="btn btn-secondary" id="export-image">
+                            <i class="fas fa-image"></i> 导出图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="card-container">
+            <!-- 华数i家APP -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-mobile-alt"></i> 华数i家APP
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>数据指标</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>总用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_total_users">24,097</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_total_users_last">23,185</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="app_total_users_rate">↑ 3.93%</span></td>
+                        </tr>
+                        <tr>
+                            <td>7月24日活跃用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_dau_717">5,928</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_dau_717_last">5,686</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="app_dau_717_rate">↑ 4.26%</span></td>
+                        </tr>
+                        <tr>
+                            <td>近7日平均日活跃</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_avg_dau_7d">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_avg_dau_7d_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="app_avg_dau_7d_rate">↑ 1.23%</span></td>
+                        </tr>
+                        <tr>
+                            <td>月活跃用户数（去重）</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_mau">17,198</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="app_mau_last">3000</span>
+                            </td>
+                            <td style="text-align:center"><span class="change-indicator positive" , id="app_mau_rate">↑
+                                    1.23%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 摄像头销售 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-video"></i> 华数眼销售
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>产品类型</th>
+                            <th style="text-align:right;white-space:nowrap">累计销量</th>
+                            <th style="text-align:right;white-space:nowrap">上周销量</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>华数眼总销量</td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_total_sales">25,048</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="camera_total_sales_last">23,402</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="camera_total_sales_rate">↑ 7.03%</span></td>
+                        </tr>
+                        <tr>
+                            <td>宇视室内摄像头</td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_indoor">19,964</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="camera_indoor_last">18,554</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="camera_indoor_rate">↑ 7.60%</span></td>
+                        </tr>
+                        <tr>
+                            <td>宇视室外摄像头</td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_outdoor">4,783</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="camera_outdoor_last">4,547</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="camera_outdoor_rate">↑ 5.19%</span></td>
+                        </tr>
+                        <tr>
+                            <td>宇视激活数</td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_activated">11,845</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="camera_activated_last">11,211</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="camera_activated_rate">↑ 5.66%</span></td>
+                        </tr>
+                        <tr>
+                            <td>宇视激活率</td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_activated_ratio">25.25%</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="camera_activated_ratio_last">23.85%</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="camera_activated_ratio_rate">↑ 5.66%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 云存储 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cloud"></i> 云存储业务
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>业务指标</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>累计开通量</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_total_open">4,666</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_total_open_last">4,325</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_total_open_rate">↑ 7.88%</span></td>
+                        </tr>
+                        <tr style="background-color: rgba(44, 111, 187, 0.05); border-left: 3px solid var(--primary);">
+                            <td style="padding-left: 15px;">
+                                <i class="fas fa-circle"
+                                    style="font-size: 0.5rem; margin-right: 2px; color: var(--primary); vertical-align: middle;"></i>
+                                <span style="vertical-align: middle;">线上开通量</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_online_open">492</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_online_open_last">462</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_online_open_rate">↑ 6.49%</span></td>
+                        </tr>
+                        <tr style="background-color: rgba(44, 111, 187, 0.05); border-left: 3px solid var(--primary);">
+                            <td style="padding-left: 15px;">
+                                <i class="fas fa-circle"
+                                    style="font-size: 0.5rem; margin-right: 2px; color: var(--primary); vertical-align: middle;"></i>
+                                <span style="vertical-align: middle;">线下开通量</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_offline_open">492</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_offline_open_last">462</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_offline_open_rate">↑ 6.49%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云存储线上累计收入（元）</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_revenue">¥21,656</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_revenue_last">¥20,644</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_revenue_rate">↑ 4.90%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云存储机套匹配数</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_in_use">3,355</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_in_use_last">2000</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="storage_in_use_rate">↑ 4.90%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 云存储套餐订购 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-layer-group"></i> 云存储套餐订购
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>套餐类型</th>
+                            <th style="text-align:right;white-space:nowrap">本周订购数</th>
+                            <th style="text-align:right;white-space:nowrap">上周订购数</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>7天事件包年</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_plan_7d_year">1,433</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_7d_year_last">1,431</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_plan_7d_year_rate">↑ 0.14%</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天事件单月订购</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_plan_7d_month">2,451</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_7d_month_last">2,256</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="storage_plan_7d_month_rate">新增指标</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>7天事件连续包月</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="storage_plan_7d_continuous_month">2,451</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_7d_continuous_month_last">2,256</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="storage_plan_7d_continuous_month_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天全时段包年</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_plan_all_year">188</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_all_year_last">187</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_plan_all_year_rate">↑ 0.53%</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天全时段单月订购</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_plan_all_month">39</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_all_month_last">37</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="storage_plan_all_month_rate">新增指标</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>7天全时段连续包月</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="storage_plan_all_continuous_month">39</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_plan_all_continuous_month_last">37</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="storage_plan_all_continuous_month_rate">新增指标</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 云存储用户使用情况 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> 云存储用户使用情况
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>使用情况</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>累计激活数</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_activated">2,560</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_activated_last">2,346</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_activated_rate">↑ 9.12%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云存储激活率</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="storage_activation_rate">40.16%</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_activation_rate_last">35.72%</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="storage_activation_rate_rate">↑ 12.43%</span></td>
+                        </tr>
+                        <tr>
+                            <td>未使用的云存储数</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_unused">1,963</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_unused_last">2,114</span></td>
+                            <td style="text-align:center"><span class="change-indicator negative"
+                                    id="storage_unused_rate">↓ 7.14%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 云相册 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-images"></i> 云相册业务
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>业务指标</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>云相册领用人数</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_claimed">2,761</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="album_claimed_last">1,926</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="album_claimed_rate">↑ 43.35%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云相册使用人数</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_used">478</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="album_used_last">306</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive" id="album_used_rate">↑
+                                    56.21%</span></td>
+                        </tr>
+                        <tr>
+                            <td>总开通空间(GB)</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_space_total">27,610G</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="album_space_total_last">19,260G</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="album_space_total_rate">↑ 141.35%</span></td>
+                        </tr>
+                        <tr>
+                            <td>总使用空间</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_space_used">501G</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="album_space_used_last">307G</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="album_space_used_rate">↑ 157.98%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 云相册用户构成分析 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users-cog"></i> 用户构成分析
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>重合业务</th>
+                            <th style="text-align:right">用户数</th>
+                            <th style="text-align:center">占比</th>
+                        </tr>
+                        <tr>
+                            <td>云相册+智能安防</td>
+                            <td style="text-align:right;font-weight:600"><span id="overlap_security">448</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_security_last">94.6%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云相册+云存储</td>
+                            <td style="text-align:right;font-weight:600"><span id="overlap_storage">88</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_storage_last">18.4%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云相册+智慧网络</td>
+                            <td style="text-align:right;font-weight:600"><span id="overlap_network">1</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_network_last">0.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云相册+家庭健康</td>
+                            <td style="text-align:right;font-weight:600"><span id="overlap_health">2</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_health_last">0.4%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 城市分布 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-map-marked-alt"></i> 城市相册分布TOP10
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>城市</th>
+                            <th style="text-align:right;white-space:nowrap">本周相册数</th>
+                            <th style="text-align:right;white-space:nowrap">上周相册数</th>
+                            <th style="text-align:center">变化</th>
+                        </tr>
+                        <tr>
+                            <td>杭州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_hangzhou">93</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_hangzhou_last">61</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="city_hangzhou_rate">↑ 52.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>绍兴市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_shaoxing">22</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_shaoxing_last">18</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="city_shaoxing_rate">↑ 22.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>金华市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_huzhou">19</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_huzhou_last">15</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="city_huzhou_rate">↑ 26.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td>湖州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_jinhua">17</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_jinhua_last">13</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="city_jinhua_rate">↑ 30.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>温州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_quzhou">16</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_quzhou_last">11</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="city_quzhou_rate">↑ 45.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>衢州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_wenzhou">12</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_wenzhou_last">12</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="city_wenzhou_rate">0.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td>上海市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_ningbo">11</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_ningbo_last">11</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="city_ningbo_rate">0.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td>宁波市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_shanghai">11</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_shanghai_last">13</span></td>
+                            <td style="text-align:center"><span class="change-indicator negative"
+                                    id="city_shanghai_rate">↓ 15.4%</span></td>
+                        </tr>
+                        <tr>
+                            <td>南京市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_lishui">9</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="city_lishui_last">9</span>
+                            </td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="city_lishui_rate">0.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td>丽水市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_nanjing">7</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="city_nanjing_last">7</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="city_nanjing_rate">0.0%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 城市分布 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-charging-station"></i> 家庭充电业务
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>业务指标</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>充电桩数量</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_station_num">93</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_station_num_last">61</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_station_num_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>充电次数总计</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_times">22</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_times_last">18</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_times_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>充电费用总计（元）</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_fee_total">22</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_fee_total_last">18</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_fee_total_rate">新增指标</span></td>
+                        </tr>
+                        <tr style="background-color: rgba(44, 111, 187, 0.05); border-left: 3px solid var(--primary);">
+                            <td style="padding-left: 15px;">
+                                <i class="fas fa-circle"
+                                    style="font-size: 0.5rem; margin-right: 2px; color: var(--primary); vertical-align: middle;"></i>
+                                <span style="vertical-align: middle;">电费总计（元）</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_electric_fee">492</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_electric_fee_last">462</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="charge_electric_fee_rate">↑ 6.49%</span></td>
+                        </tr>
+                        <tr style="background-color: rgba(44, 111, 187, 0.05); border-left: 3px solid var(--primary);">
+                            <td style="padding-left: 15px;">
+                                <i class="fas fa-circle"
+                                    style="font-size: 0.5rem; margin-right: 2px; color: var(--primary); vertical-align: middle;"></i>
+                                <span style="vertical-align: middle;">服务费总计（元）</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_service_fee">492</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_service_fee_last">462</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="charge_service_fee_rate">↑ 6.49%</span></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>充电电费总计</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_fee_total">19</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_fee_total_last">-</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_fee_total_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>充电服务费总计</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_service_fee_total">17</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_service_fee_total_last">13</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_service_fee_total_rate">新增指标</span></td>
+                        </tr> -->
+                        <tr>
+                            <td>使用用户(去重)</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_user_num">16</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_user_num_last">11</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="charge_user_num_rate">新增指标</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <i class="fas fa-chart-bar"></i> 数据可视化分析
+            </div>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-title">云相册用户增长趋势</div>
+                    <div class="chart-wrapper">
+                        <canvas id="album-trend-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">城市相册分布TOP10</div>
+                    <div class="chart-wrapper">
+                        <canvas id="city-distribution-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">云存储套餐构成</div>
+                    <div class="chart-wrapper">
+                        <canvas id="storage-pie-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">云相册用户重合度分析</div>
+                    <div class="chart-wrapper">
+                        <canvas id="user-overlap-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p id="footer_title">© 2025 华数i家业务数据周报系统 | 数据更新时间：2025-07-25 18:00</p>
+        </div>
+    </div>
+
+    <script>
+        // 数据映射表
+        const dataMap = {
+            '总用户数': { current: 'app_total_users', last: 'app_total_users_last', rate: 'app_total_users_rate' },
+            '7月24日活跃用户数': { current: 'app_dau_717', last: 'app_dau_717_last', rate: 'app_dau_717_rate' },
+            '近7日平均日活跃': { current: 'app_avg_dau_7d', last: 'app_avg_dau_7d_last', rate: 'app_avg_dau_7d_rate' },
+            '月活跃用户数（去重）': { current: 'app_mau', last: 'app_mau_last', rate: 'app_mau_rate' },
+            '华数眼总销量': { current: 'camera_total_sales', last: 'camera_total_sales_last', rate: 'camera_total_sales_rate' },
+            '宇视室内摄像头': { current: 'camera_indoor', last: 'camera_indoor_last', rate: 'camera_indoor_rate' },
+            '宇视室外摄像头': { current: 'camera_outdoor', last: 'camera_outdoor_last', rate: 'camera_outdoor_rate' },
+            '宇视激活数': { current: 'camera_activated', last: 'camera_activated_last', rate: 'camera_activated_rate' },
+            '宇视激活率': { current: 'camera_activated_ratio', last: 'camera_activated_ratio_last', rate: 'camera_activated_ratio_rate' },
+            '累计开通量': { current: 'storage_total_open', last: 'storage_total_open_last', rate: 'storage_total_open_rate' },
+            '线上开通量': { current: 'storage_online_open', last: 'storage_online_open_last', rate: 'storage_online_open_rate' },
+            '线下开通量': { current: 'storage_offline_open', last: 'storage_offline_open_last', rate: 'storage_offline_open_rate' },
+            '云存储线上累计收入': { current: 'storage_revenue', last: 'storage_revenue_last', rate: 'storage_revenue_rate' },
+            '云存储机套匹配数': { current: 'storage_in_use', last: 'storage_in_use_last', rate: 'storage_in_use_rate' },
+            '7天事件云存包年': { current: 'storage_plan_7d_year', last: 'storage_plan_7d_year_last', rate: 'storage_plan_7d_year_rate' },
+            '7天事件单月订购': { current: 'storage_plan_7d_month', last: 'storage_plan_7d_month_last', rate: 'storage_plan_7d_month_rate' },
+            '7天事件云存连续包月': { current: 'storage_plan_7d_continuous_month', last: 'storage_plan_7d_continuous_month_last', rate: 'storage_plan_7d_continuous_month_rate' },
+            '7天全时段包年': { current: 'storage_plan_all_year', last: 'storage_plan_all_year_last', rate: 'storage_plan_all_year_rate' },
+            '7天全时段单月订购': { current: 'storage_plan_all_month', last: 'storage_plan_all_month_last', rate: 'storage_plan_all_month_rate' },
+            '7天全时段连续包月': { current: 'storage_plan_all_continuous_month', last: 'storage_plan_all_continuous_month_last', rate: 'storage_plan_all_continuous_month_rate' },
+            '累计激活数': { current: 'storage_activated', last: 'storage_activated_last', rate: 'storage_activated_rate' },
+            '云存储激活率': { current: 'storage_activation_rate', last: 'storage_activation_rate_last', rate: 'storage_activation_rate_rate' },
+            '未使用的云存储数': { current: 'storage_unused', last: 'storage_unused_last', rate: 'storage_unused_rate' },
+            '云相册领用人数': { current: 'album_claimed', last: 'album_claimed_last', rate: 'album_claimed_rate' },
+            '云相册使用人数': { current: 'album_used', last: 'album_used_last', rate: 'album_used_rate' },
+            '总开通空间': { current: 'album_space_total', last: 'album_space_total_last', rate: 'album_space_total_rate' },
+            '总使用空间': { current: 'album_space_used', last: 'album_space_used_last', rate: 'album_space_used_rate' },
+
+            '云相册+智能安防': { current: 'overlap_security', last: 'overlap_security_last', rate: 'overlap_security_rate' },
+            '云相册+云存储': { current: 'overlap_storage', last: 'overlap_storage_last', rate: 'overlap_storage_rate' },
+            '云相册+智慧网络': { current: 'overlap_network', last: 'overlap_network_last', rate: 'overlap_network_rate' },
+            '云相册+家庭健康': { current: 'overlap_health', last: 'overlap_health_last', rate: 'overlap_health_rate' },
+
+            '城市排行第一市': { current: 'city_hangzhou', last: 'city_hangzhou_last', rate: 'city_hangzhou_rate' },
+            '城市排行第二市': { current: 'city_shaoxing', last: 'city_shaoxing_last', rate: 'city_shaoxing_rate' },
+            '城市排行第三市': { current: 'city_huzhou', last: 'city_huzhou_last', rate: 'city_huzhou_rate' },
+            '城市排行第四市': { current: 'city_jinhua', last: 'city_jinhua_last', rate: 'city_jinhua_rate' },
+            '城市排行第五市': { current: 'city_quzhou', last: 'city_quzhou_last', rate: 'city_quzhou_rate' },
+            '城市排行第六市': { current: 'city_wenzhou', last: 'city_wenzhou_last', rate: 'city_wenzhou_rate' },
+            '城市排行第七市': { current: 'city_ningbo', last: 'city_ningbo_last', rate: 'city_ningbo_rate' },
+            '城市排行第八市': { current: 'city_shanghai', last: 'city_shanghai_last', rate: 'city_shanghai_rate' },
+            '城市排行第九市': { current: 'city_lishui', last: 'city_lishui_last', rate: 'city_lishui_rate' },
+            '城市排行第十市': { current: 'city_nanjing', last: 'city_nanjing_last', rate: 'city_nanjing_rate' },
+
+            '充电桩数量': { current: 'charge_station_num', last: 'charge_station_num_last', rate: 'charge_station_num_rate' },
+            '充电次数总计': { current: 'charge_times', last: 'charge_times_last', rate: 'charge_times_rate' },
+            '充电费用总计': { current: 'charge_fee_total', last: 'charge_fee_total_last', rate: 'charge_fee_total_rate' },
+            '电费总计': { current: 'charge_electric_fee', last: 'charge_electric_fee_last', rate: 'charge_electric_fee_rate' },
+            '服务费总计': { current: 'charge_service_fee', last: 'charge_service_fee_last', rate: 'charge_service_fee_rate' },
+            '使用用户(去重)': { current: 'charge_user_num', last: 'charge_user_num_last', rate: 'charge_user_num_rate' },
+        };
+
+        //初始化图表标题内容
+        const footerTitle = document.getElementById('footer_title');
+        footerTitle.textContent = `© 2025 华数i家业务数据周报系统 | 数据更新时间：${getDate()} 18:00`;
+        const subtitle = document.getElementById('subtitle');
+        subtitle.textContent = `数据截止：${getChineseDate()} | 洞察业务增长新趋势`;
+
+        // 初始化编辑区域
+        const editContainer = document.getElementById('edit-container');
+        Object.keys(dataMap).forEach(label => {
+            const item = document.createElement('div');
+            item.className = 'edit-item';
+            item.innerHTML = `
+                <label>${label}：</label>
+                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+            `;
+            editContainer.appendChild(item);
+        });
+
+        // 应用更新
+        document.getElementById('apply-data').addEventListener('click', function () {
+            document.querySelectorAll('.current-input').forEach(input => {
+                const label = input.dataset.label;
+
+                var currentValue, lastValue;
+                if (isDecimal(input.value)) {
+                    currentValue = parseFloat(input.value) || 0;
+                } else {
+                    currentValue = parseInt(input.value) || 0;
+                }
+                if (isDecimal(document.querySelector(`.last-week-input[data-label="${label}"]`).value)) {
+                    lastValue = parseFloat(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
+                } else {
+                    lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
+                }
+                // const currentValue = parseInt(input.value) || 0;
+                // const lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
+
+                // 更新当前值
+                if (label == '云存储激活率' || label == '宇视激活率') {
+                    document.getElementById(dataMap[label].current).textContent = `${currentValue.toLocaleString()}%`;
+                    document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
+                } else if(label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
+                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
+                    document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
+                } else {
+                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
+                    document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
+                }
+
+
+                // 计算环比
+                if (lastValue > 0) {
+                    const rate = ((currentValue - lastValue) / lastValue * 100).toFixed(2);
+                    const rateSpan = document.getElementById(dataMap[label].rate);
+
+                    if (rateSpan != null) {
+                        rateSpan.textContent = `${rate > 0 ? '↑' : '↓'} ${Math.abs(rate)}%`;
+                        rateSpan.className = `change-indicator ${rate > 0 ? 'positive' : rate < 0 ? 'negative' : 'neutral'}`;                        
+                    }
+                } else {
+                    const rateSpan = document.getElementById(dataMap[label].rate);
+                    if (rateSpan != null) {
+                        rateSpan.textContent = `新增指标`;
+                        rateSpan.className = `change-indicator neutral`;
+                    }
+                }
+
+                // 更新图表
+                updateCharts();
+            });
+        });
+
+        // 图表配置
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 12 } } }
+            }
+        };
+
+        let albumTrendChart, cityChart, storagePieChart, overlapChart;
+
+        function initCharts() {
+            albumTrendChart = new Chart(document.getElementById('album-trend-chart'), {
+                type: 'line',
+                data: {
+                    labels: ['领用人数', '使用人数', '开通空间(G)', '使用空间(G)'],
+                    datasets: [{
+                        label: '上周数据',
+                        data: [
+                            parseInt(document.getElementById('album_claimed_last').textContent),
+                            parseInt(document.getElementById('album_used_last').textContent),
+                            parseInt(document.getElementById('album_space_total_last').textContent),
+                            parseInt(document.getElementById('album_space_used_last').textContent)
+                        ],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: '本周数据',
+                        data: [
+                            parseInt(document.getElementById('album_claimed').textContent),
+                            parseInt(document.getElementById('album_used').textContent),
+                            parseInt(document.getElementById('album_space_total').textContent),
+                            parseInt(document.getElementById('album_space_used').textContent)
+                        ],
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            cityChart = new Chart(document.getElementById('city-distribution-chart'), {
+                type: 'bar',
+                data: {
+                    labels: ['杭州', '绍兴', '金华', '湖州', '温州', '衢州', '上海', '宁波', '南京', '丽水'],
+                    datasets: [{
+                        label: '本周相册数',
+                        data: [
+                            parseInt(document.getElementById('city_hangzhou').textContent),
+                            parseInt(document.getElementById('city_shaoxing').textContent),
+                            parseInt(document.getElementById('city_huzhou').textContent),
+                            parseInt(document.getElementById('city_jinhua').textContent),
+                            parseInt(document.getElementById('city_quzhou').textContent),
+                            parseInt(document.getElementById('city_wenzhou').textContent),
+                            parseInt(document.getElementById('city_ningbo').textContent),
+                            parseInt(document.getElementById('city_shanghai').textContent),
+                            parseInt(document.getElementById('city_lishui').textContent),
+                            parseInt(document.getElementById('city_nanjing').textContent)
+                        ],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(243, 156, 18, 0.8)',
+                            'rgba(231, 76, 60, 0.8)',
+                            'rgba(155, 89, 182, 0.8)',
+                            'rgba(52, 73, 94, 0.8)',
+                            'rgba(230, 126, 34, 0.8)',
+                            'rgba(26, 188, 156, 0.8)',
+                            'rgba(241, 196, 15, 0.8)',
+                            'rgba(149, 165, 166, 0.8)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true },
+                        x: {}
+                    }
+                }
+            });
+
+            storagePieChart = new Chart(document.getElementById('storage-pie-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['7天事件包年', '7天事件单月订购', '7天事件云存连续包月', '7天全时段包年', '7天全时段单月订购', '7天全时段连续包月'],
+                    datasets: [{
+                        data: [
+                            parseInt(document.getElementById('storage_plan_7d_year').textContent),
+                            parseInt(document.getElementById('storage_plan_7d_month').textContent),
+                            parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent),
+                            parseInt(document.getElementById('storage_plan_all_year').textContent),
+                            parseInt(document.getElementById('storage_plan_all_month').textContent),
+                            parseInt(document.getElementById('storage_plan_all_continuous_month').textContent),
+                        ],
+                        backgroundColor: ['#3498db', '#2ecc71', '#f236ed', '#f39c12', '#9b59b6', '#f23658']
+                    }]
+                },
+                options: chartOptions
+            });
+
+            overlapChart = new Chart(document.getElementById('user-overlap-chart'), {
+                type: 'pie',
+                data: {
+                    labels: ['智能安防', '云存储', '家庭健康', '智慧网络'],
+                    datasets: [{
+                        data: [
+                            parseInt(document.getElementById('overlap_security').textContent),
+                            parseInt(document.getElementById('overlap_storage').textContent),
+                            parseInt(document.getElementById('overlap_health').textContent),
+                            parseInt(document.getElementById('overlap_network').textContent)
+                        ],
+                        backgroundColor: ['#3498db', '#2ecc71', '#f39c12', '#9b59b6']
+                    }]
+                },
+                options: chartOptions
+            });
+        }
+
+        function updateCharts() {
+            albumTrendChart.data.datasets[0].data = [
+                parseInt(document.getElementById('album_claimed_last').textContent),
+                parseInt(document.getElementById('album_used_last').textContent),
+                parseInt(document.getElementById('album_space_total_last').textContent),
+                parseInt(document.getElementById('album_space_used_last').textContent)
+            ];
+            albumTrendChart.data.datasets[1].data = [
+                parseInt(document.getElementById('album_claimed').textContent),
+                parseInt(document.getElementById('album_used').textContent),
+                parseInt(document.getElementById('album_space_total').textContent),
+                parseInt(document.getElementById('album_space_used').textContent)
+            ];
+            albumTrendChart.update();
+
+            cityChart.data.datasets[0].data = [
+                parseInt(document.getElementById('city_hangzhou').textContent),
+                parseInt(document.getElementById('city_shaoxing').textContent),
+                parseInt(document.getElementById('city_huzhou').textContent),
+                parseInt(document.getElementById('city_jinhua').textContent),
+                parseInt(document.getElementById('city_quzhou').textContent),
+                parseInt(document.getElementById('city_wenzhou').textContent),
+                parseInt(document.getElementById('city_ningbo').textContent),
+                parseInt(document.getElementById('city_shanghai').textContent),
+                parseInt(document.getElementById('city_lishui').textContent),
+                parseInt(document.getElementById('city_nanjing').textContent)
+            ];
+            cityChart.update();
+
+            storagePieChart.data.datasets[0].data = [
+                parseInt(document.getElementById('storage_plan_7d_year').textContent),
+                parseInt(document.getElementById('storage_plan_7d_month').textContent),
+                parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent),
+                parseInt(document.getElementById('storage_plan_all_year').textContent),
+                parseInt(document.getElementById('storage_plan_all_month').textContent),
+                parseInt(document.getElementById('storage_plan_all_continuous_month').textContent)
+            ];
+            storagePieChart.update();
+
+            overlapChart.data.datasets[0].data = [
+                parseInt(document.getElementById('overlap_security').textContent),
+                parseInt(document.getElementById('overlap_storage').textContent),
+                parseInt(document.getElementById('overlap_health').textContent),
+                parseInt(document.getElementById('overlap_network').textContent)
+            ];
+            overlapChart.update();
+        }
+
+        // 初始化图表
+        document.addEventListener('DOMContentLoaded', initCharts);
+
+        // 导出功能
+        document.getElementById('export-pdf').addEventListener('click', async () => {
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('data-edit-area').style.display = 'none';
+            const { jsPDF } = window.jspdf;
+            const canvas = await html2canvas(document.getElementById('report-content'));
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+            // pdf.save('华数i家业务周报-2025-07-18.pdf');
+            pdf.save(`华数i家业务周报-${getDate()}.pdf`);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('data-edit-area').style.display = 'block';
+        });
+
+        document.getElementById('export-image').addEventListener('click', async () => {
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('data-edit-area').style.display = 'none';
+            const canvas = await html2canvas(document.getElementById('report-content'));
+            const link = document.createElement('a');
+            // link.download = '华数i家业务周报-2025-07-18.png';
+            link.download = `华数i家业务周报-${getDate()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('data-edit-area').style.display = 'block';
+        });
+
+
+
+        //工具函数
+        function getDate() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
+            let day = today.getDate().toString().padStart(2, '0');
+            return date = `${year}-${month}-${day}`;
+        }
+
+        function getChineseDate() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
+            let day = today.getDate().toString().padStart(2, '0');
+            return date = `${year}年${month}月${day}日`;
+        }
+
+        function isDecimal(num) {
+            return /^[+-]?\d+(\.\d+)?$/.test(num);
+        }
+    </script>
+</body>
+
+</html>
