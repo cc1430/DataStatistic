@@ -1082,13 +1082,11 @@
             '使用用户(去重)': { current: 'charge_user_num', last: 'charge_user_num_last', rate: 'charge_user_num_rate' },
         };
 
-        //初始化图表标题内容
-        const footerTitle = document.getElementById('footer_title');
-        footerTitle.textContent = `© 2025 华数i家业务数据周报系统 | 数据更新时间：${getDate()} 18:00`;
-        const subtitle = document.getElementById('subtitle');
-        subtitle.textContent = `数据截止：${getChineseDate()} | 洞察业务增长新趋势`;
-
-        const previousDayLabel = `${getPreviousDay()}活跃用户数`;
+        var selectedDate = new Date();
+        var todayStr = selectedDate.toISOString().split('T')[0];
+        document.getElementById('report-date').value = todayStr;
+        var previousDayLabel = '';
+        updateDateValue();
 
         // 初始化编辑区域
         const editContainer = document.getElementById('edit-container');
@@ -1098,13 +1096,13 @@
             item.className = 'edit-item';
             if (label === "前一日活跃用户数") {
                 item.innerHTML = `
-                <label>${previousDayLabel}：</label>
+                <label id="${label}">${previousDayLabel}：</label>
                 <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
             `;
             } else {
                 item.innerHTML = `
-                <label>${label}：</label>
+                <label id="${label}">${label}：</label>
                 <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
             `;
@@ -1351,6 +1349,24 @@
         // 初始化图表
         document.addEventListener('DOMContentLoaded', initCharts);
 
+        // 添加日期选择事件监听器
+        document.getElementById('report-date').addEventListener('change', function () {
+            const selectDateValue = this.value;
+            selectedDate = new Date(selectDateValue);
+
+            // 更新副标题中的日期显示
+            updateDateValue();
+            
+            // 更新编辑区域中的前一日活跃用户数标签
+            const editItems = document.querySelectorAll('.edit-item');
+            editItems.forEach(item => {
+                const labelElement = item.querySelector('label');
+                if (labelElement && labelElement.id.includes('前一日活跃用户数')) {
+                    labelElement.textContent = `${previousDayLabel}：`;
+                }
+            });
+        });
+
         // 导出功能
         document.getElementById('export-pdf').addEventListener('click', async () => {
             document.getElementById('loading').style.display = 'flex';
@@ -1379,12 +1395,24 @@
             document.getElementById('data-edit-area').style.display = 'block';
         });
 
+        function updateDateValue() {
+            //初始化图表标题内容
+            const footerTitle = document.getElementById('footer_title');
+            footerTitle.textContent = `© 2025 华数i家业务数据周报系统 | 数据更新时间：${getDate()} 18:00`;
+            const subtitle = document.getElementById('subtitle');
+            subtitle.textContent = `数据截止：${getChineseDate()} | 洞察业务增长新趋势`;
+
+            previousDayLabel = `${getPreviousDay()}活跃用户数`;
+            // 更新前一日活跃用户数标签
+            document.getElementById('app_lastday_dau').textContent = previousDayLabel;
+        }
+
 
         /**
          * 获取当前时间 xxxx-xx-xx
          */
         function getDate() {
-            let today = new Date();
+            let today = selectedDate;
             let year = today.getFullYear();
             let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
             let day = today.getDate().toString().padStart(2, '0');
@@ -1395,7 +1423,7 @@
          * 获取中文日期
          */
         function getChineseDate() {
-            let today = new Date();
+            let today = selectedDate;
             let year = today.getFullYear();
             let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
             let day = today.getDate().toString().padStart(2, '0');
@@ -1416,14 +1444,15 @@
          */
         function getPreviousDay() {
             // 创建一个新的Date对象（默认为当前日期）
-            let date = new Date();
+            let date = selectedDate;
 
             // 将日期设置为前一天
-            date.setDate(date.getDate() - 1);
+            let previousDate = new Date(date);
+            previousDate.setDate(date.getDate() - 1);
 
             // 获取月份和日期
-            let month = date.getMonth() + 1; // 月份从0开始，需要加1
-            let day = date.getDate();
+            let month = previousDate.getMonth() + 1; // 月份从0开始，需要加1
+            let day = previousDate.getDate();
 
             // 返回格式化后的字符串
             return `${month}月${day}日`;
