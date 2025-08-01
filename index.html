@@ -1429,6 +1429,9 @@
             return `${month}月${day}日`;
         }
 
+        /**
+         * 保存数据到本地存储
+         */
         function saveDataToLocalStorage() {
             const data = {};
             document.querySelectorAll('.current-input, .last-week-input').forEach(input => {
@@ -1452,7 +1455,7 @@
                         const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
                         const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
 
-                        if (currentInput && data[label].current !== undefined) {
+                        if (cu,rrentInput && data[label].current !== undefined) {
                             currentInput.value = data[label].current;
                         }
                         if (lastInput && data[label].last !== undefined) {
