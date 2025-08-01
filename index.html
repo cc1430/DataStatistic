@@ -1455,7 +1455,7 @@
                         const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
                         const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
 
-                        if (cu,rrentInput && data[label].current !== undefined) {
+                        if (currentInput && data[label].current !== undefined) {
                             currentInput.value = data[label].current;
                         }
                         if (lastInput && data[label].last !== undefined) {
