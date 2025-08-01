@@ -47,14 +47,16 @@
         }
 
         .edit-item input[type="number"] {
-            width: 65px; /* 可根据需要调整具体数值 */
+            width: 65px;
+            /* 可根据需要调整具体数值 */
             -moz-appearance: textfield;
             appearance: textfield;
         }
-        
+
         .edit-item input[type=number]::-webkit-outer-spin-button,
         .edit-item input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none; /* Chrome, Safari, Edge */
+            -webkit-appearance: none;
+            /* Chrome, Safari, Edge */
             margin: 0;
         }
 
@@ -516,7 +518,8 @@
                         </tr>
                         <tr>
                             <td>宇视激活率</td>
-                            <td style="text-align:right;font-weight:600"><span id="camera_activated_ratio">25.25%</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="camera_activated_ratio">25.25%</span>
+                            </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="camera_activated_ratio_last">23.85%</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
@@ -771,22 +774,26 @@
                         <tr>
                             <td>云相册+智能安防</td>
                             <td style="text-align:right;font-weight:600"><span id="overlap_security">448</span></td>
-                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_security_last">94.6%</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="overlap_security_last">94.6%</span></td>
                         </tr>
                         <tr>
                             <td>云相册+云存储</td>
                             <td style="text-align:right;font-weight:600"><span id="overlap_storage">88</span></td>
-                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_storage_last">18.4%</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="overlap_storage_last">18.4%</span></td>
                         </tr>
                         <tr>
                             <td>云相册+智慧网络</td>
                             <td style="text-align:right;font-weight:600"><span id="overlap_network">1</span></td>
-                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_network_last">0.2%</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="overlap_network_last">0.2%</span></td>
                         </tr>
                         <tr>
                             <td>云相册+家庭健康</td>
                             <td style="text-align:right;font-weight:600"><span id="overlap_health">2</span></td>
-                            <td style="text-align:center"><span class="change-indicator neutral", id="overlap_health_last">0.4%</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="overlap_health_last">0.4%</span></td>
                         </tr>
                     </table>
                 </div>
@@ -1102,7 +1109,7 @@
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
             `;
             }
-            
+
             editContainer.appendChild(item);
         });
 
@@ -1129,7 +1136,7 @@
                 if (label == '云存储激活率' || label == '宇视激活率') {
                     document.getElementById(dataMap[label].current).textContent = `${currentValue.toLocaleString()}%`;
                     document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
-                } else if(label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
+                } else if (label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
                     document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
                     document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
                 } else {
@@ -1137,7 +1144,7 @@
                     document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
                 }
 
-                if(label == '前一日活跃用户数') {
+                if (label == '前一日活跃用户数') {
                     document.getElementById('app_lastday_dau').textContent = `${previousDayLabel}`;
                 }
 
@@ -1149,7 +1156,7 @@
 
                     if (rateSpan != null) {
                         rateSpan.textContent = `${rate > 0 ? '↑' : '↓'} ${Math.abs(rate)}%`;
-                        rateSpan.className = `change-indicator ${rate > 0 ? 'positive' : rate < 0 ? 'negative' : 'neutral'}`;                        
+                        rateSpan.className = `change-indicator ${rate > 0 ? 'positive' : rate < 0 ? 'negative' : 'neutral'}`;
                     }
                 } else {
                     const rateSpan = document.getElementById(dataMap[label].rate);
@@ -1161,6 +1168,9 @@
 
                 // 更新图表
                 updateCharts();
+
+                //保存数据
+                saveDataToLocalStorage();
             });
         });
 
@@ -1176,6 +1186,9 @@
         let albumTrendChart, cityChart, storagePieChart, overlapChart;
 
         function initCharts() {
+            // 加载保存的数据
+            loadDataFromLocalStorage();
+
             albumTrendChart = new Chart(document.getElementById('album-trend-chart'), {
                 type: 'line',
                 data: {
@@ -1367,8 +1380,9 @@
         });
 
 
-
-        //工具函数
+        /**
+         * 获取当前时间 xxxx-xx-xx
+         */
         function getDate() {
             let today = new Date();
             let year = today.getFullYear();
@@ -1377,6 +1391,9 @@
             return date = `${year}-${month}-${day}`;
         }
 
+        /**
+         * 获取中文日期
+         */
         function getChineseDate() {
             let today = new Date();
             let year = today.getFullYear();
@@ -1385,24 +1402,66 @@
             return date = `${year}年${month}月${day}日`;
         }
 
+        /**
+         * 判断是否是小数
+         * @param {*} num 
+         * @returns 
+         */
         function isDecimal(num) {
             return /^[+-]?\d+(\.\d+)?$/.test(num);
         }
 
+        /**
+         * 返回前一天 格式：x月x日
+         */
         function getPreviousDay() {
             // 创建一个新的Date对象（默认为当前日期）
             let date = new Date();
-    
+
             // 将日期设置为前一天
             date.setDate(date.getDate() - 1);
-    
+
             // 获取月份和日期
             let month = date.getMonth() + 1; // 月份从0开始，需要加1
             let day = date.getDate();
-    
+
             // 返回格式化后的字符串
             return `${month}月${day}日`;
-}
+        }
+
+        function saveDataToLocalStorage() {
+            const data = {};
+            document.querySelectorAll('.current-input, .last-week-input').forEach(input => {
+                const label = input.dataset.label;
+                const type = input.classList.contains('current-input') ? 'current' : 'last';
+                if (!data[label]) data[label] = {};
+                data[label][type] = input.value;
+            });
+            localStorage.setItem('userData', JSON.stringify(data));
+        }
+
+        /**
+         * 从 localStorage 读取数据并填充到编辑区域
+         */
+        function loadDataFromLocalStorage() {
+            const savedData = localStorage.getItem('userData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(label => {
+                    if (dataMap[label]) {
+                        const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
+                        const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
+
+                        if (currentInput && data[label].current !== undefined) {
+                            currentInput.value = data[label].current;
+                        }
+                        if (lastInput && data[label].last !== undefined) {
+                            lastInput.value = data[label].last;
+                        }
+                    }
+                });
+            }
+        }
     </script>
 </body>
 
