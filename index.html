@@ -441,7 +441,7 @@
                                     id="app_total_users_rate">↑ 3.93%</span></td>
                         </tr>
                         <tr>
-                            <td>7月24日活跃用户数</td>
+                            <td id="app_lastday_dau">前一日活跃用户数</td>
                             <td style="text-align:right;font-weight:600"><span id="app_dau_717">5,928</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="app_dau_717_last">5,686</span></td>
@@ -573,20 +573,20 @@
                         </tr>
                         <tr>
                             <td>云存储线上累计收入（元）</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_revenue">¥21,656</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_revenue">21,656</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_revenue_last">¥20,644</span></td>
+                                    id="storage_revenue_last">20,644</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="storage_revenue_rate">↑ 4.90%</span></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>云存储机套匹配数</td>
                             <td style="text-align:right;font-weight:600"><span id="storage_in_use">3,355</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="storage_in_use_last">2000</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral"
                                     id="storage_in_use_rate">↑ 4.90%</span></td>
-                        </tr>
+                        </tr> -->
                     </table>
                 </div>
             </div>
@@ -737,7 +737,7 @@
                         </tr>
                         <tr>
                             <td>总开通空间(GB)</td>
-                            <td style="text-align:right;font-weight:600"><span id="album_space_total">27,610G</span>
+                            <td style="text-align:right;font-weight:600"><span id="album_space_total">27,610</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="album_space_total_last">19,260G</span></td>
@@ -745,8 +745,8 @@
                                     id="album_space_total_rate">↑ 141.35%</span></td>
                         </tr>
                         <tr>
-                            <td>总使用空间</td>
-                            <td style="text-align:right;font-weight:600"><span id="album_space_used">501G</span></td>
+                            <td>总使用空间(GB)</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_space_used">501</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="album_space_used_last">307G</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
@@ -1024,7 +1024,7 @@
         // 数据映射表
         const dataMap = {
             '总用户数': { current: 'app_total_users', last: 'app_total_users_last', rate: 'app_total_users_rate' },
-            '7月24日活跃用户数': { current: 'app_dau_717', last: 'app_dau_717_last', rate: 'app_dau_717_rate' },
+            '前一日活跃用户数': { current: 'app_dau_717', last: 'app_dau_717_last', rate: 'app_dau_717_rate' },
             '近7日平均日活跃': { current: 'app_avg_dau_7d', last: 'app_avg_dau_7d_last', rate: 'app_avg_dau_7d_rate' },
             '月活跃用户数（去重）': { current: 'app_mau', last: 'app_mau_last', rate: 'app_mau_rate' },
             '华数眼总销量': { current: 'camera_total_sales', last: 'camera_total_sales_last', rate: 'camera_total_sales_rate' },
@@ -1036,7 +1036,7 @@
             '线上开通量': { current: 'storage_online_open', last: 'storage_online_open_last', rate: 'storage_online_open_rate' },
             '线下开通量': { current: 'storage_offline_open', last: 'storage_offline_open_last', rate: 'storage_offline_open_rate' },
             '云存储线上累计收入': { current: 'storage_revenue', last: 'storage_revenue_last', rate: 'storage_revenue_rate' },
-            '云存储机套匹配数': { current: 'storage_in_use', last: 'storage_in_use_last', rate: 'storage_in_use_rate' },
+            // '云存储机套匹配数': { current: 'storage_in_use', last: 'storage_in_use_last', rate: 'storage_in_use_rate' },
             '7天事件云存包年': { current: 'storage_plan_7d_year', last: 'storage_plan_7d_year_last', rate: 'storage_plan_7d_year_rate' },
             '7天事件单月订购': { current: 'storage_plan_7d_month', last: 'storage_plan_7d_month_last', rate: 'storage_plan_7d_month_rate' },
             '7天事件云存连续包月': { current: 'storage_plan_7d_continuous_month', last: 'storage_plan_7d_continuous_month_last', rate: 'storage_plan_7d_continuous_month_rate' },
@@ -1081,16 +1081,28 @@
         const subtitle = document.getElementById('subtitle');
         subtitle.textContent = `数据截止：${getChineseDate()} | 洞察业务增长新趋势`;
 
+        const previousDayLabel = `${getPreviousDay()}活跃用户数`;
+
         // 初始化编辑区域
         const editContainer = document.getElementById('edit-container');
         Object.keys(dataMap).forEach(label => {
             const item = document.createElement('div');
+
             item.className = 'edit-item';
-            item.innerHTML = `
+            if (label === "前一日活跃用户数") {
+                item.innerHTML = `
+                <label>${previousDayLabel}：</label>
+                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+            `;
+            } else {
+                item.innerHTML = `
                 <label>${label}：</label>
                 <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
             `;
+            }
+            
             editContainer.appendChild(item);
         });
 
@@ -1123,6 +1135,10 @@
                 } else {
                     document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
                     document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
+                }
+
+                if(label == '前一日活跃用户数') {
+                    document.getElementById('app_lastday_dau').textContent = `${previousDayLabel}`;
                 }
 
 
@@ -1372,6 +1388,21 @@
         function isDecimal(num) {
             return /^[+-]?\d+(\.\d+)?$/.test(num);
         }
+
+        function getPreviousDay() {
+            // 创建一个新的Date对象（默认为当前日期）
+            let date = new Date();
+    
+            // 将日期设置为前一天
+            date.setDate(date.getDate() - 1);
+    
+            // 获取月份和日期
+            let month = date.getMonth() + 1; // 月份从0开始，需要加1
+            let day = date.getDate();
+    
+            // 返回格式化后的字符串
+            return `${month}月${day}日`;
+}
     </script>
 </body>
 
