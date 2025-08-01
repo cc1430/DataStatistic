@@ -705,6 +705,22 @@
                             <td style="text-align:center"><span class="change-indicator negative"
                                     id="storage_unused_rate">↓ 7.14%</span></td>
                         </tr>
+                        <tr>
+                            <td>云存渗透率</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_penetration_rate">19.63%</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_penetration_rate_last">21.14%</span></td>
+                            <td style="text-align:center"><span class="change-indicator negative"
+                                    id="storage_penetration_rate_rate">↓ 7.14%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云存使用率</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_usage_rate">19.63%</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_usage_rate_last">21.14%</span></td>
+                            <td style="text-align:center"><span class="change-indicator negative"
+                                    id="storage_usage_rate_rate">↓ 7.14%</span></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -1050,9 +1066,13 @@
             '7天全时段包年': { current: 'storage_plan_all_year', last: 'storage_plan_all_year_last', rate: 'storage_plan_all_year_rate' },
             '7天全时段单月订购': { current: 'storage_plan_all_month', last: 'storage_plan_all_month_last', rate: 'storage_plan_all_month_rate' },
             '7天全时段连续包月': { current: 'storage_plan_all_continuous_month', last: 'storage_plan_all_continuous_month_last', rate: 'storage_plan_all_continuous_month_rate' },
+            
             '累计激活数': { current: 'storage_activated', last: 'storage_activated_last', rate: 'storage_activated_rate' },
             '云存储激活率': { current: 'storage_activation_rate', last: 'storage_activation_rate_last', rate: 'storage_activation_rate_rate' },
             '未使用的云存储数': { current: 'storage_unused', last: 'storage_unused_last', rate: 'storage_unused_rate' },
+            '云存储渗透率': { current: 'storage_penetration_rate', last: 'storage_penetration_rate_last', rate: 'storage_penetration_rate_rate' },
+            '云存储使用率': { current: 'storage_usage_rate', last: 'storage_usage_rate_last', rate: 'storage_usage_rate_rate' },
+            
             '云相册领用人数': { current: 'album_claimed', last: 'album_claimed_last', rate: 'album_claimed_rate' },
             '云相册使用人数': { current: 'album_used', last: 'album_used_last', rate: 'album_used_rate' },
             '总开通空间': { current: 'album_space_total', last: 'album_space_total_last', rate: 'album_space_total_rate' },
@@ -1131,7 +1151,7 @@
                 // const lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
 
                 // 更新当前值
-                if (label == '云存储激活率' || label == '宇视激活率') {
+                if (label == '云存储激活率' || label == '宇视激活率' || label == '云存储渗透率' || label == '云存储使用率') {
                     document.getElementById(dataMap[label].current).textContent = `${currentValue.toLocaleString()}%`;
                     document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
                 } else if (label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
