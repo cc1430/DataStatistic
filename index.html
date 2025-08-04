@@ -1074,102 +1074,349 @@
 
     <script>
         // 数据映射表
-        const dataMap = {
-            '总用户数': { current: 'app_total_users', last: 'app_total_users_last', rate: 'app_total_users_rate' },
-            '前一日活跃用户数': { current: 'app_dau_717', last: 'app_dau_717_last', rate: 'app_dau_717_rate' },
-            '近7日平均日活跃': { current: 'app_avg_dau_7d', last: 'app_avg_dau_7d_last', rate: 'app_avg_dau_7d_rate' },
-            '月活跃用户数（去重）': { current: 'app_mau', last: 'app_mau_last', rate: 'app_mau_rate' },
-            '华数眼总销量': { current: 'camera_total_sales', last: 'camera_total_sales_last', rate: 'camera_total_sales_rate' },
-            '宇视室内摄像头': { current: 'camera_indoor', last: 'camera_indoor_last', rate: 'camera_indoor_rate' },
-            '宇视室外摄像头': { current: 'camera_outdoor', last: 'camera_outdoor_last', rate: 'camera_outdoor_rate' },
-            '宇视激活数': { current: 'camera_activated', last: 'camera_activated_last', rate: 'camera_activated_rate' },
-            '宇视激活率': { current: 'camera_activated_ratio', last: 'camera_activated_ratio_last', rate: 'camera_activated_ratio_rate' },
-            '累计开通量': { current: 'storage_total_open', last: 'storage_total_open_last', rate: 'storage_total_open_rate' },
-            '线上开通量': { current: 'storage_online_open', last: 'storage_online_open_last', rate: 'storage_online_open_rate' },
-            '线下开通量': { current: 'storage_offline_open', last: 'storage_offline_open_last', rate: 'storage_offline_open_rate' },
-            '云存储线上累计收入': { current: 'storage_revenue', last: 'storage_revenue_last', rate: 'storage_revenue_rate' },
-            // '云存储机套匹配数': { current: 'storage_in_use', last: 'storage_in_use_last', rate: 'storage_in_use_rate' },
-            '7天事件云存包年': { current: 'storage_plan_7d_year', last: 'storage_plan_7d_year_last', rate: 'storage_plan_7d_year_rate' },
-            '7天事件单月订购': { current: 'storage_plan_7d_month', last: 'storage_plan_7d_month_last', rate: 'storage_plan_7d_month_rate' },
-            '7天事件云存连续包月': { current: 'storage_plan_7d_continuous_month', last: 'storage_plan_7d_continuous_month_last', rate: 'storage_plan_7d_continuous_month_rate' },
-            '7天全时段包年': { current: 'storage_plan_all_year', last: 'storage_plan_all_year_last', rate: 'storage_plan_all_year_rate' },
-            '7天全时段单月订购': { current: 'storage_plan_all_month', last: 'storage_plan_all_month_last', rate: 'storage_plan_all_month_rate' },
-            '7天全时段连续包月': { current: 'storage_plan_all_continuous_month', last: 'storage_plan_all_continuous_month_last', rate: 'storage_plan_all_continuous_month_rate' },
-
-            '累计激活数': { current: 'storage_activated', last: 'storage_activated_last', rate: 'storage_activated_rate' },
-            '云存储激活率': { current: 'storage_activation_rate', last: 'storage_activation_rate_last', rate: 'storage_activation_rate_rate' },
-            '未使用的云存储数': { current: 'storage_unused', last: 'storage_unused_last', rate: 'storage_unused_rate' },
-            '云存储渗透率': { current: 'storage_penetration_rate', last: 'storage_penetration_rate_last', rate: 'storage_penetration_rate_rate' },
-            '云存储使用率': { current: 'storage_usage_rate', last: 'storage_usage_rate_last', rate: 'storage_usage_rate_rate' },
-
-            '云相册领用人数': { current: 'album_claimed', last: 'album_claimed_last', rate: 'album_claimed_rate' },
-            '云相册使用人数': { current: 'album_used', last: 'album_used_last', rate: 'album_used_rate' },
-            '总开通空间': { current: 'album_space_total', last: 'album_space_total_last', rate: 'album_space_total_rate' },
-            '总使用空间': { current: 'album_space_used', last: 'album_space_used_last', rate: 'album_space_used_rate' },
-
-            '云相册+智能安防': { current: 'overlap_security', last: 'overlap_security_last', rate: 'overlap_security_rate' },
-            '云相册+云存储': { current: 'overlap_storage', last: 'overlap_storage_last', rate: 'overlap_storage_rate' },
-            '云相册+智慧网络': { current: 'overlap_network', last: 'overlap_network_last', rate: 'overlap_network_rate' },
-            '云相册+家庭健康': { current: 'overlap_health', last: 'overlap_health_last', rate: 'overlap_health_rate' },
-
-            '城市排行1': { cityName: 'city_name_rank_1', current: 'city_rank_1', last: 'city_rank_1_last', rate: 'city_rank_1_rate' },
-            '城市排行2': { cityName: 'city_name_rank_2', current: 'city_rank_2', last: 'city_rank_2_last', rate: 'city_rank_2_rate' },
-            '城市排行3': { cityName: 'city_name_rank_3', current: 'city_rank_3', last: 'city_rank_3_last', rate: 'city_rank_3_rate' },
-            '城市排行4': { cityName: 'city_name_rank_4', current: 'city_rank_4', last: 'city_rank_4_last', rate: 'city_rank_4_rate' },
-            '城市排行5': { cityName: 'city_name_rank_5', current: 'city_rank_5', last: 'city_rank_5_last', rate: 'city_rank_5_rate' },
-            '城市排行6': { cityName: 'city_name_rank_6', current: 'city_rank_6', last: 'city_rank_6_last', rate: 'city_rank_6_rate' },
-            '城市排行7': { cityName: 'city_name_rank_7', current: 'city_rank_7', last: 'city_rank_7_last', rate: 'city_rank_7_rate' },
-            '城市排行8': { cityName: 'city_name_rank_8', current: 'city_rank_8', last: 'city_rank_8_last', rate: 'city_rank_8_rate' },
-            '城市排行9': { cityName: 'city_name_rank_9', current: 'city_rank_9', last: 'city_rank_9_last', rate: 'city_rank_9_rate' },
-            '城市排行10': { cityName: 'city_name_rank_10', current: 'city_rank_10', last: 'city_rank_10_last', rate: 'city_rank_10_rate' },
-
-            '充电桩数量': { current: 'charge_station_num', last: 'charge_station_num_last', rate: 'charge_station_num_rate' },
-            '充电次数总计': { current: 'charge_times', last: 'charge_times_last', rate: 'charge_times_rate' },
-            '充电费用总计': { current: 'charge_fee_total', last: 'charge_fee_total_last', rate: 'charge_fee_total_rate' },
-            '电费总计': { current: 'charge_electric_fee', last: 'charge_electric_fee_last', rate: 'charge_electric_fee_rate' },
-            '服务费总计': { current: 'charge_service_fee', last: 'charge_service_fee_last', rate: 'charge_service_fee_rate' },
-            '使用用户(去重)': { current: 'charge_user_num', last: 'charge_user_num_last', rate: 'charge_user_num_rate' },
-        };
-
-        // 定义各业务模块及其包含的数据项
-        const sections = [
+        const businessData = [
             {
                 title: "华数i家APP",
-                items: ['总用户数', '前一日活跃用户数', '近7日平均日活跃', '月活跃用户数（去重）']
+                items: [
+                    {
+                        label: '总用户数',
+                        current: 'app_total_users',
+                        last: 'app_total_users_last',
+                        rate: 'app_total_users_rate'
+                    },
+                    {
+                        label: '前一日活跃用户数',
+                        current: 'app_dau_717',
+                        last: 'app_dau_717_last',
+                        rate: 'app_dau_717_rate'
+                    },
+                    {
+                        label: '近7日平均日活跃',
+                        current: 'app_avg_dau_7d',
+                        last: 'app_avg_dau_7d_last',
+                        rate: 'app_avg_dau_7d_rate'
+                    },
+                    {
+                        label: '月活跃用户数（去重）',
+                        current: 'app_mau',
+                        last: 'app_mau_last',
+                        rate: 'app_mau_rate'
+                    }
+                ]
             },
             {
                 title: "华数眼销售",
-                items: ['华数眼总销量', '宇视室内摄像头', '宇视室外摄像头', '宇视激活数', '宇视激活率']
+                items: [
+                    {
+                        label: '华数眼总销量',
+                        current: 'camera_total_sales',
+                        last: 'camera_total_sales_last',
+                        rate: 'camera_total_sales_rate'
+                    },
+                    {
+                        label: '宇视室内摄像头',
+                        current: 'camera_indoor',
+                        last: 'camera_indoor_last',
+                        rate: 'camera_indoor_rate'
+                    },
+                    {
+                        label: '宇视室外摄像头',
+                        current: 'camera_outdoor',
+                        last: 'camera_outdoor_last',
+                        rate: 'camera_outdoor_rate'
+                    },
+                    {
+                        label: '宇视激活数',
+                        current: 'camera_activated',
+                        last: 'camera_activated_last',
+                        rate: 'camera_activated_rate'
+                    },
+                    {
+                        label: '宇视激活率',
+                        current: 'camera_activated_ratio',
+                        last: 'camera_activated_ratio_last',
+                        rate: 'camera_activated_ratio_rate'
+                    }
+                ]
             },
             {
                 title: "云存储业务",
-                items: ['累计开通量', '线上开通量', '线下开通量', '云存储线上累计收入']
+                items: [
+                    {
+                        label: '累计开通量',
+                        current: 'storage_total_open',
+                        last: 'storage_total_open_last',
+                        rate: 'storage_total_open_rate'
+                    },
+                    {
+                        label: '线上开通量',
+                        current: 'storage_online_open',
+                        last: 'storage_online_open_last',
+                        rate: 'storage_online_open_rate'
+                    },
+                    {
+                        label: '线下开通量',
+                        current: 'storage_offline_open',
+                        last: 'storage_offline_open_last',
+                        rate: 'storage_offline_open_rate'
+                    },
+                    {
+                        label: '云存储线上累计收入',
+                        current: 'storage_revenue',
+                        last: 'storage_revenue_last',
+                        rate: 'storage_revenue_rate'
+                    }
+                ]
             },
             {
                 title: "云存储套餐订购",
-                items: ['7天事件云存包年', '7天事件单月订购', '7天事件云存连续包月',
-                    '7天全时段包年', '7天全时段单月订购', '7天全时段连续包月']
+                items: [
+                    {
+                        label: '7天事件云存包年',
+                        current: 'storage_plan_7d_year',
+                        last: 'storage_plan_7d_year_last',
+                        rate: 'storage_plan_7d_year_rate'
+                    },
+                    {
+                        label: '7天事件单月订购',
+                        current: 'storage_plan_7d_month',
+                        last: 'storage_plan_7d_month_last',
+                        rate: 'storage_plan_7d_month_rate'
+                    },
+                    {
+                        label: '7天事件云存连续包月',
+                        current: 'storage_plan_7d_continuous_month',
+                        last: 'storage_plan_7d_continuous_month_last',
+                        rate: 'storage_plan_7d_continuous_month_rate'
+                    },
+                    {
+                        label: '7天全时段包年',
+                        current: 'storage_plan_all_year',
+                        last: 'storage_plan_all_year_last',
+                        rate: 'storage_plan_all_year_rate'
+                    },
+                    {
+                        label: '7天全时段单月订购',
+                        current: 'storage_plan_all_month',
+                        last: 'storage_plan_all_month_last',
+                        rate: 'storage_plan_all_month_rate'
+                    },
+                    {
+                        label: '7天全时段连续包月',
+                        current: 'storage_plan_all_continuous_month',
+                        last: 'storage_plan_all_continuous_month_last',
+                        rate: 'storage_plan_all_continuous_month_rate'
+                    }
+                ]
             },
             {
                 title: "云存储用户使用情况",
-                items: ['累计激活数', '云存储激活率', '未使用的云存储数', '云存储渗透率', '云存储使用率']
+                items: [
+                    {
+                        label: '累计激活数',
+                        current: 'storage_activated',
+                        last: 'storage_activated_last',
+                        rate: 'storage_activated_rate'
+                    },
+                    {
+                        label: '云存储激活率',
+                        current: 'storage_activation_rate',
+                        last: 'storage_activation_rate_last',
+                        rate: 'storage_activation_rate_rate'
+                    },
+                    {
+                        label: '未使用的云存储数',
+                        current: 'storage_unused',
+                        last: 'storage_unused_last',
+                        rate: 'storage_unused_rate'
+                    },
+                    {
+                        label: '云存储渗透率',
+                        current: 'storage_penetration_rate',
+                        last: 'storage_penetration_rate_last',
+                        rate: 'storage_penetration_rate_rate'
+                    },
+                    {
+                        label: '云存储使用率',
+                        current: 'storage_usage_rate',
+                        last: 'storage_usage_rate_last',
+                        rate: 'storage_usage_rate_rate'
+                    }
+                ]
             },
             {
                 title: "云相册业务",
-                items: ['云相册领用人数', '云相册使用人数', '总开通空间', '总使用空间']
+                items: [
+                    {
+                        label: '云相册领用人数',
+                        current: 'album_claimed',
+                        last: 'album_claimed_last',
+                        rate: 'album_claimed_rate'
+                    },
+                    {
+                        label: '云相册使用人数',
+                        current: 'album_used',
+                        last: 'album_used_last',
+                        rate: 'album_used_rate'
+                    },
+                    {
+                        label: '总开通空间',
+                        current: 'album_space_total',
+                        last: 'album_space_total_last',
+                        rate: 'album_space_total_rate'
+                    },
+                    {
+                        label: '总使用空间',
+                        current: 'album_space_used',
+                        last: 'album_space_used_last',
+                        rate: 'album_space_used_rate'
+                    }
+                ]
             },
             {
                 title: "用户构成分析",
-                items: ['云相册+智能安防', '云相册+云存储', '云相册+智慧网络', '云相册+家庭健康']
+                items: [
+                    {
+                        label: '云相册+智能安防',
+                        current: 'overlap_security',
+                        last: 'overlap_security_last',
+                        rate: 'overlap_security_rate'
+                    },
+                    {
+                        label: '云相册+云存储',
+                        current: 'overlap_storage',
+                        last: 'overlap_storage_last',
+                        rate: 'overlap_storage_rate'
+                    },
+                    {
+                        label: '云相册+智慧网络',
+                        current: 'overlap_network',
+                        last: 'overlap_network_last',
+                        rate: 'overlap_network_rate'
+                    },
+                    {
+                        label: '云相册+家庭健康',
+                        current: 'overlap_health',
+                        last: 'overlap_health_last',
+                        rate: 'overlap_health_rate'
+                    }
+                ]
             },
             {
                 title: "城市相册分布TOP10",
-                items: ['城市排行1', '城市排行2', '城市排行3', '城市排行4', '城市排行5',
-                    '城市排行6', '城市排行7', '城市排行8', '城市排行9', '城市排行10']
+                items: [
+                    {
+                        label: '城市排行1',
+                        cityName: 'city_name_rank_1',
+                        current: 'city_rank_1',
+                        last: 'city_rank_1_last',
+                        rate: 'city_rank_1_rate'
+                    },
+                    {
+                        label: '城市排行2',
+                        cityName: 'city_name_rank_2',
+                        current: 'city_rank_2',
+                        last: 'city_rank_2_last',
+                        rate: 'city_rank_2_rate'
+                    },
+                    {
+                        label: '城市排行3',
+                        cityName: 'city_name_rank_3',
+                        current: 'city_rank_3',
+                        last: 'city_rank_3_last',
+                        rate: 'city_rank_3_rate'
+                    },
+                    {
+                        label: '城市排行4',
+                        cityName: 'city_name_rank_4',
+                        current: 'city_rank_4',
+                        last: 'city_rank_4_last',
+                        rate: 'city_rank_4_rate'
+                    },
+                    {
+                        label: '城市排行5',
+                        cityName: 'city_name_rank_5',
+                        current: 'city_rank_5',
+                        last: 'city_rank_5_last',
+                        rate: 'city_rank_5_rate'
+                    },
+                    {
+                        label: '城市排行6',
+                        cityName: 'city_name_rank_6',
+                        current: 'city_rank_6',
+                        last: 'city_rank_6_last',
+                        rate: 'city_rank_6_rate'
+                    },
+                    {
+                        label: '城市排行7',
+                        cityName: 'city_name_rank_7',
+                        current: 'city_rank_7',
+                        last: 'city_rank_7_last',
+                        rate: 'city_rank_7_rate'
+                    },
+                    {
+                        label: '城市排行8',
+                        cityName: 'city_name_rank_8',
+                        current: 'city_rank_8',
+                        last: 'city_rank_8_last',
+                        rate: 'city_rank_8_rate'
+                    },
+                    {
+                        label: '城市排行9',
+                        cityName: 'city_name_rank_9',
+                        current: 'city_rank_9',
+                        last: 'city_rank_9_last',
+                        rate: 'city_rank_9_rate'
+                    },
+                    {
+                        label: '城市排行10',
+                        cityName: 'city_name_rank_10',
+                        current: 'city_rank_10',
+                        last: 'city_rank_10_last',
+                        rate: 'city_rank_10_rate'
+                    }
+                ]
             },
             {
                 title: "家庭充电业务",
-                items: ['充电桩数量', '充电次数总计', '充电费用总计', '电费总计', '服务费总计', '使用用户(去重)']
+                items: [
+                    {
+                        label: '充电桩数量',
+                        current: 'charge_station_num',
+                        last: 'charge_station_num_last',
+                        rate: 'charge_station_num_rate'
+                    },
+                    {
+                        label: '充电次数总计',
+                        current: 'charge_times',
+                        last: 'charge_times_last',
+                        rate: 'charge_times_rate'
+                    },
+                    {
+                        label: '充电费用总计',
+                        current: 'charge_fee_total',
+                        last: 'charge_fee_total_last',
+                        rate: 'charge_fee_total_rate'
+                    },
+                    {
+                        label: '电费总计',
+                        current: 'charge_electric_fee',
+                        last: 'charge_electric_fee_last',
+                        rate: 'charge_electric_fee_rate'
+                    },
+                    {
+                        label: '服务费总计',
+                        current: 'charge_service_fee',
+                        last: 'charge_service_fee_last',
+                        rate: 'charge_service_fee_rate'
+                    },
+                    {
+                        label: '使用用户(去重)',
+                        current: 'charge_user_num',
+                        last: 'charge_user_num_last',
+                        rate: 'charge_user_num_rate'
+                    }
+                ]
             }
         ];
 
@@ -1180,10 +1427,25 @@
         updateDateValue();
         initEditArea();
 
-        // 应用更新
+        // 更新应用更新函数以使用新的数据结构
         document.getElementById('apply-data').addEventListener('click', function () {
             document.querySelectorAll('.current-input').forEach(input => {
                 const label = input.dataset.label;
+
+                // 查找对应的项目数据
+                let itemData = null;
+                for (const section of businessData) {
+                    const item = section.items.find(item => item.label === label);
+                    if (item) {
+                        itemData = item;
+                        break;
+                    }
+                }
+
+                if (!itemData) {
+                    console.error('Missing data entry for label:', label);
+                    return;
+                }
 
                 var currentValue, lastValue;
                 if (isDecimal(input.value)) {
@@ -1196,42 +1458,39 @@
                 } else {
                     lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
                 }
-                // const currentValue = parseInt(input.value) || 0;
-                // const lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
 
                 // 更新当前值
                 if (label == '云存储激活率' || label == '宇视激活率' || label == '云存储渗透率' || label == '云存储使用率') {
-                    document.getElementById(dataMap[label].current).textContent = `${currentValue.toLocaleString()}%`;
-                    document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
+                    document.getElementById(itemData.current).textContent = `${currentValue.toLocaleString()}%`;
+                    document.getElementById(itemData.last).textContent = `${lastValue.toLocaleString()}%`;
                 } else if (label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
-                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
-                    document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
+                    document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
+                    document.getElementById(itemData.last).textContent = `${lastValue.toLocaleString()}%`;
                 } else if (label.includes('城市排行')) {
-                    document.getElementById(dataMap[label].cityName).textContent = document.querySelector(`.city-name-input[data-label="${label}"]`).value;
-                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
-                    document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
+                    document.getElementById(itemData.cityName).textContent = document.querySelector(`.city-name-input[data-label="${label}"]`).value;
+                    document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
+                    document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
                 }
                 else {
-                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
-                    document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
+                    document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
+                    document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
                 }
 
                 if (label == '前一日活跃用户数') {
                     document.getElementById('app_lastday_dau').textContent = `${previousDayLabel}`;
                 }
 
-
                 // 计算环比
                 if (lastValue > 0) {
                     const rate = ((currentValue - lastValue) / lastValue * 100).toFixed(2);
-                    const rateSpan = document.getElementById(dataMap[label].rate);
+                    const rateSpan = document.getElementById(itemData.rate);
 
                     if (rateSpan != null) {
                         rateSpan.textContent = `${rate > 0 ? '↑' : '↓'} ${Math.abs(rate)}%`;
                         rateSpan.className = `change-indicator ${rate > 0 ? 'positive' : rate < 0 ? 'negative' : 'neutral'}`;
                     }
                 } else {
-                    const rateSpan = document.getElementById(dataMap[label].rate);
+                    const rateSpan = document.getElementById(itemData.rate);
                     if (rateSpan != null) {
                         rateSpan.textContent = `新增指标`;
                         rateSpan.className = `change-indicator neutral`;
@@ -1504,12 +1763,13 @@
             document.getElementById('app_lastday_dau').textContent = previousDayLabel;
         }
 
+        // 更新初始化编辑区域的函数以使用新的数据结构
         function initEditArea() {
             const editContainer = document.getElementById('edit-container');
             editContainer.innerHTML = ''; // 清空容器
 
             // 为每个模块创建编辑区域
-            sections.forEach(section => {
+            businessData.forEach(section => {
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'data-edit-section';
 
@@ -1520,38 +1780,34 @@
                 const gridDiv = document.createElement('div');
                 gridDiv.className = 'edit-grid';
 
-                section.items.forEach(label => {
-                    const item = document.createElement('div');
-                    item.className = 'edit-item';
-
-                    if (!dataMap[label]) {
-                        console.error('Missing dataMap entry for label:', label);
-                        return;
-                    }
+                section.items.forEach(item => {
+                    const label = item.label;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'edit-item';
 
                     if (label === "前一日活跃用户数") {
-                        item.innerHTML = `
+                        itemDiv.innerHTML = `
                         <label id="${label}">${previousDayLabel}：</label>
-                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(item.current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(item.last).textContent.replace(/[^\d.-]/g, '') || 0}">
                         `;
                     } else if (label.includes('城市排行')) {
                         let rank = label.split('城市排行')[1];
-                        item.innerHTML = `
-                        <input type="text" class="city-name-input" data-label="${label}" placeholder="${label}" value="${document.getElementById(dataMap[label].cityName).textContent.replace(/[^\d.]/g, '')}">
+                        itemDiv.innerHTML = `
+                        <input type="text" class="city-name-input" data-label="${label}" placeholder="${label}" value="${document.getElementById(item.cityName).textContent.replace(/[^\d.]/g, '')}">
                         <label class="city-name-label" id="${label}">${rank}：</label>
-                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(item.current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(item.last).textContent.replace(/[^\d.-]/g, '') || 0}">
                         `;
                     } else {
-                        item.innerHTML = `
+                        itemDiv.innerHTML = `
                         <label id="${label}">${label}：</label>
-                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(item.current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(item.last).textContent.replace(/[^\d.-]/g, '') || 0}">
                         `;
                     }
 
-                    gridDiv.appendChild(item);
+                    gridDiv.appendChild(itemDiv);
                 });
 
                 sectionDiv.appendChild(gridDiv);
@@ -1631,15 +1887,23 @@
             localStorage.setItem('userData', JSON.stringify(data));
         }
 
-        /**
-         * 从 localStorage 读取数据并填充到编辑区域
-         */
+        // 更新从 localStorage 读取数据的函数
         function loadDataFromLocalStorage() {
             const savedData = localStorage.getItem('userData');
             if (savedData) {
                 const data = JSON.parse(savedData);
                 Object.keys(data).forEach(label => {
-                    if (dataMap[label]) {
+                    // 查找对应的项目数据
+                    let itemData = null;
+                    for (const section of businessData) {
+                        const item = section.items.find(item => item.label === label);
+                        if (item) {
+                            itemData = item;
+                            break;
+                        }
+                    }
+
+                    if (itemData) {
                         const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
                         const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
 
