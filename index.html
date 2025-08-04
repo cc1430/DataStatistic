@@ -360,13 +360,12 @@
         }
 
         .edit-item label {
-            width: 140px;
+            width: 120px;
             flex-shrink: 0;
-            text-align: right;
         }
 
         .edit-item .city-name-label {
-            width:auto;
+            width: auto;
             flex-shrink: 0;
         }
 
@@ -381,7 +380,6 @@
             width: 80px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            margin-left: 20px;
         }
 
         .edit-item .last-week {
@@ -391,6 +389,23 @@
 
         .hide-on-export {
             display: block;
+        }
+
+        /* 添加新的样式定义 */
+        .data-edit-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .data-edit-section h4 {
+            margin: 0 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary-dark);
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -1116,42 +1131,54 @@
             '使用用户(去重)': { current: 'charge_user_num', last: 'charge_user_num_last', rate: 'charge_user_num_rate' },
         };
 
+        // 定义各业务模块及其包含的数据项
+        const sections = [
+            {
+                title: "华数i家APP",
+                items: ['总用户数', '前一日活跃用户数', '近7日平均日活跃', '月活跃用户数（去重）']
+            },
+            {
+                title: "华数眼销售",
+                items: ['华数眼总销量', '宇视室内摄像头', '宇视室外摄像头', '宇视激活数', '宇视激活率']
+            },
+            {
+                title: "云存储业务",
+                items: ['累计开通量', '线上开通量', '线下开通量', '云存储线上累计收入']
+            },
+            {
+                title: "云存储套餐订购",
+                items: ['7天事件云存包年', '7天事件单月订购', '7天事件云存连续包月',
+                    '7天全时段包年', '7天全时段单月订购', '7天全时段连续包月']
+            },
+            {
+                title: "云存储用户使用情况",
+                items: ['累计激活数', '云存储激活率', '未使用的云存储数', '云存储渗透率', '云存储使用率']
+            },
+            {
+                title: "云相册业务",
+                items: ['云相册领用人数', '云相册使用人数', '总开通空间', '总使用空间']
+            },
+            {
+                title: "用户构成分析",
+                items: ['云相册+智能安防', '云相册+云存储', '云相册+智慧网络', '云相册+家庭健康']
+            },
+            {
+                title: "城市相册分布TOP10",
+                items: ['城市排行1', '城市排行2', '城市排行3', '城市排行4', '城市排行5',
+                    '城市排行6', '城市排行7', '城市排行8', '城市排行9', '城市排行10']
+            },
+            {
+                title: "家庭充电业务",
+                items: ['充电桩数量', '充电次数总计', '充电费用总计', '电费总计', '服务费总计', '使用用户(去重)']
+            }
+        ];
+
         var selectedDate = new Date();
         var todayStr = selectedDate.toISOString().split('T')[0];
         document.getElementById('report-date').value = todayStr;
         var previousDayLabel = '';
         updateDateValue();
-
-        // 初始化编辑区域
-        const editContainer = document.getElementById('edit-container');
-        Object.keys(dataMap).forEach(label => {
-            const item = document.createElement('div');
-
-            item.className = 'edit-item';
-            if (label === "前一日活跃用户数") {
-                item.innerHTML = `
-                <label id="${label}">${previousDayLabel}：</label>
-                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
-                `;
-            } else if (label.includes('城市排行')) {
-                let rank = label.split('城市排行')[1];
-                item.innerHTML = `
-                <input type="text" class="city-name-input" data-label="${label}" placeholder="${label}" value="${document.getElementById(dataMap[label].cityName).textContent.replace(/[^\d.]/g, '')}">
-                <label class="city-name-label" id="${label}">${rank}：</label>
-                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
-                `;
-            } else {
-                item.innerHTML = `
-                <label id="${label}">${label}：</label>
-                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
-                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
-                `;
-            }
-
-            editContainer.appendChild(item);
-    });
+        initEditArea();
 
         // 应用更新
         document.getElementById('apply-data').addEventListener('click', function () {
@@ -1475,6 +1502,61 @@
             previousDayLabel = `${getPreviousDay()}活跃用户数`;
             // 更新前一日活跃用户数标签
             document.getElementById('app_lastday_dau').textContent = previousDayLabel;
+        }
+
+        function initEditArea() {
+            const editContainer = document.getElementById('edit-container');
+            editContainer.innerHTML = ''; // 清空容器
+
+            // 为每个模块创建编辑区域
+            sections.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'data-edit-section';
+
+                const title = document.createElement('h4');
+                title.textContent = section.title;
+                sectionDiv.appendChild(title);
+
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'edit-grid';
+
+                section.items.forEach(label => {
+                    const item = document.createElement('div');
+                    item.className = 'edit-item';
+
+                    if (!dataMap[label]) {
+                        console.error('Missing dataMap entry for label:', label);
+                        return;
+                    }
+
+                    if (label === "前一日活跃用户数") {
+                        item.innerHTML = `
+                        <label id="${label}">${previousDayLabel}：</label>
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        `;
+                    } else if (label.includes('城市排行')) {
+                        let rank = label.split('城市排行')[1];
+                        item.innerHTML = `
+                        <input type="text" class="city-name-input" data-label="${label}" placeholder="${label}" value="${document.getElementById(dataMap[label].cityName).textContent.replace(/[^\d.]/g, '')}">
+                        <label class="city-name-label" id="${label}">${rank}：</label>
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        `;
+                    } else {
+                        item.innerHTML = `
+                        <label id="${label}">${label}：</label>
+                        <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                        `;
+                    }
+
+                    gridDiv.appendChild(item);
+                });
+
+                sectionDiv.appendChild(gridDiv);
+                editContainer.appendChild(sectionDiv);
+            });
         }
 
 
