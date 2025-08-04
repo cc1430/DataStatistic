@@ -365,11 +365,23 @@
             text-align: right;
         }
 
+        .edit-item .city-name-label {
+            width:auto;
+            flex-shrink: 0;
+        }
+
         .edit-item input {
             width: 90px;
             padding: 4px 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+
+        .edit-item .city-name-input {
+            width: 80px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 20px;
         }
 
         .edit-item .last-week {
@@ -707,7 +719,8 @@
                         </tr>
                         <tr>
                             <td>云存储渗透率</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_penetration_rate">19.63%</span></td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="storage_penetration_rate">19.63%</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="storage_penetration_rate_last">21.14%</span></td>
                             <td style="text-align:center"><span class="change-indicator negative"
@@ -715,7 +728,8 @@
                         </tr>
                         <tr>
                             <td>云存储使用率</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_usage_rate">19.63%</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_usage_rate">19.63%</span>
+                            </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="storage_usage_rate_last">21.14%</span></td>
                             <td style="text-align:center"><span class="change-indicator negative"
@@ -829,84 +843,84 @@
                             <th style="text-align:center">变化</th>
                         </tr>
                         <tr>
-                            <td>杭州市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_hangzhou">93</span></td>
+                            <td id="city_name_rank_1">杭州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_1">93</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_hangzhou_last">61</span></td>
+                                    id="city_rank_1_last">61</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="city_hangzhou_rate">↑ 52.5%</span></td>
+                                    id="city_rank_1_rate">↑ 52.5%</span></td>
                         </tr>
                         <tr>
-                            <td>绍兴市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_shaoxing">22</span></td>
+                            <td id="city_name_rank_2">绍兴市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_2">22</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_shaoxing_last">18</span></td>
+                                    id="city_rank_2_last">18</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="city_shaoxing_rate">↑ 22.2%</span></td>
+                                    id="city_rank_2_rate">↑ 22.2%</span></td>
                         </tr>
                         <tr>
-                            <td>金华市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_huzhou">19</span></td>
+                            <td id="city_name_rank_3">金华市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_3">19</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_huzhou_last">15</span></td>
+                                    id="city_rank_3_last">15</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="city_huzhou_rate">↑ 26.7%</span></td>
+                                    id="city_rank_3_rate">↑ 26.7%</span></td>
                         </tr>
                         <tr>
-                            <td>湖州市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_jinhua">17</span></td>
+                            <td id="city_name_rank_4">湖州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_4">17</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_jinhua_last">13</span></td>
+                                    id="city_rank_4_last">13</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="city_jinhua_rate">↑ 30.8%</span></td>
+                                    id="city_rank_4_rate">↑ 30.8%</span></td>
                         </tr>
                         <tr>
-                            <td>温州市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_quzhou">16</span></td>
+                            <td id="city_name_rank_5">温州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_5">16</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_quzhou_last">11</span></td>
+                                    id="city_rank_5_last">11</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="city_quzhou_rate">↑ 45.5%</span></td>
+                                    id="city_rank_5_rate">↑ 45.5%</span></td>
                         </tr>
                         <tr>
-                            <td>衢州市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_wenzhou">12</span></td>
+                            <td id="city_name_rank_6">衢州市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_6">12</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_wenzhou_last">12</span></td>
+                                    id="city_rank_6_last">12</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral"
-                                    id="city_wenzhou_rate">0.0%</span></td>
+                                    id="city_rank_6_rate">0.0%</span></td>
                         </tr>
                         <tr>
-                            <td>上海市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_ningbo">11</span></td>
+                            <td id="city_name_rank_7">上海市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_7">11</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_ningbo_last">11</span></td>
+                                    id="city_rank_7_last">11</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral"
-                                    id="city_ningbo_rate">0.0%</span></td>
+                                    id="city_rank_7_rate">0.0%</span></td>
                         </tr>
                         <tr>
-                            <td>宁波市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_shanghai">11</span></td>
+                            <td id="city_name_rank_8">宁波市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_8">11</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_shanghai_last">13</span></td>
+                                    id="city_rank_8_last">13</span></td>
                             <td style="text-align:center"><span class="change-indicator negative"
-                                    id="city_shanghai_rate">↓ 15.4%</span></td>
+                                    id="city_rank_8_rate">↓ 15.4%</span></td>
                         </tr>
                         <tr>
-                            <td>南京市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_lishui">9</span></td>
-                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="city_lishui_last">9</span>
+                            <td id="city_name_rank_9">南京市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_9">9</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="city_rank_9_last">9</span>
                             </td>
                             <td style="text-align:center"><span class="change-indicator neutral"
-                                    id="city_lishui_rate">0.0%</span></td>
+                                    id="city_rank_9_rate">0.0%</span></td>
                         </tr>
                         <tr>
-                            <td>丽水市</td>
-                            <td style="text-align:right;font-weight:600"><span id="city_nanjing">7</span></td>
+                            <td id="city_name_rank_10">丽水市</td>
+                            <td style="text-align:right;font-weight:600"><span id="city_rank_10">7</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="city_nanjing_last">7</span></td>
+                                    id="city_rank_10_last">7</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral"
-                                    id="city_nanjing_rate">0.0%</span></td>
+                                    id="city_rank_10_rate">0.0%</span></td>
                         </tr>
                     </table>
                 </div>
@@ -1066,13 +1080,13 @@
             '7天全时段包年': { current: 'storage_plan_all_year', last: 'storage_plan_all_year_last', rate: 'storage_plan_all_year_rate' },
             '7天全时段单月订购': { current: 'storage_plan_all_month', last: 'storage_plan_all_month_last', rate: 'storage_plan_all_month_rate' },
             '7天全时段连续包月': { current: 'storage_plan_all_continuous_month', last: 'storage_plan_all_continuous_month_last', rate: 'storage_plan_all_continuous_month_rate' },
-            
+
             '累计激活数': { current: 'storage_activated', last: 'storage_activated_last', rate: 'storage_activated_rate' },
             '云存储激活率': { current: 'storage_activation_rate', last: 'storage_activation_rate_last', rate: 'storage_activation_rate_rate' },
             '未使用的云存储数': { current: 'storage_unused', last: 'storage_unused_last', rate: 'storage_unused_rate' },
             '云存储渗透率': { current: 'storage_penetration_rate', last: 'storage_penetration_rate_last', rate: 'storage_penetration_rate_rate' },
             '云存储使用率': { current: 'storage_usage_rate', last: 'storage_usage_rate_last', rate: 'storage_usage_rate_rate' },
-            
+
             '云相册领用人数': { current: 'album_claimed', last: 'album_claimed_last', rate: 'album_claimed_rate' },
             '云相册使用人数': { current: 'album_used', last: 'album_used_last', rate: 'album_used_rate' },
             '总开通空间': { current: 'album_space_total', last: 'album_space_total_last', rate: 'album_space_total_rate' },
@@ -1083,16 +1097,16 @@
             '云相册+智慧网络': { current: 'overlap_network', last: 'overlap_network_last', rate: 'overlap_network_rate' },
             '云相册+家庭健康': { current: 'overlap_health', last: 'overlap_health_last', rate: 'overlap_health_rate' },
 
-            '城市排行第一市': { current: 'city_hangzhou', last: 'city_hangzhou_last', rate: 'city_hangzhou_rate' },
-            '城市排行第二市': { current: 'city_shaoxing', last: 'city_shaoxing_last', rate: 'city_shaoxing_rate' },
-            '城市排行第三市': { current: 'city_huzhou', last: 'city_huzhou_last', rate: 'city_huzhou_rate' },
-            '城市排行第四市': { current: 'city_jinhua', last: 'city_jinhua_last', rate: 'city_jinhua_rate' },
-            '城市排行第五市': { current: 'city_quzhou', last: 'city_quzhou_last', rate: 'city_quzhou_rate' },
-            '城市排行第六市': { current: 'city_wenzhou', last: 'city_wenzhou_last', rate: 'city_wenzhou_rate' },
-            '城市排行第七市': { current: 'city_ningbo', last: 'city_ningbo_last', rate: 'city_ningbo_rate' },
-            '城市排行第八市': { current: 'city_shanghai', last: 'city_shanghai_last', rate: 'city_shanghai_rate' },
-            '城市排行第九市': { current: 'city_lishui', last: 'city_lishui_last', rate: 'city_lishui_rate' },
-            '城市排行第十市': { current: 'city_nanjing', last: 'city_nanjing_last', rate: 'city_nanjing_rate' },
+            '城市排行1': { cityName: 'city_name_rank_1', current: 'city_rank_1', last: 'city_rank_1_last', rate: 'city_rank_1_rate' },
+            '城市排行2': { cityName: 'city_name_rank_2', current: 'city_rank_2', last: 'city_rank_2_last', rate: 'city_rank_2_rate' },
+            '城市排行3': { cityName: 'city_name_rank_3', current: 'city_rank_3', last: 'city_rank_3_last', rate: 'city_rank_3_rate' },
+            '城市排行4': { cityName: 'city_name_rank_4', current: 'city_rank_4', last: 'city_rank_4_last', rate: 'city_rank_4_rate' },
+            '城市排行5': { cityName: 'city_name_rank_5', current: 'city_rank_5', last: 'city_rank_5_last', rate: 'city_rank_5_rate' },
+            '城市排行6': { cityName: 'city_name_rank_6', current: 'city_rank_6', last: 'city_rank_6_last', rate: 'city_rank_6_rate' },
+            '城市排行7': { cityName: 'city_name_rank_7', current: 'city_rank_7', last: 'city_rank_7_last', rate: 'city_rank_7_rate' },
+            '城市排行8': { cityName: 'city_name_rank_8', current: 'city_rank_8', last: 'city_rank_8_last', rate: 'city_rank_8_rate' },
+            '城市排行9': { cityName: 'city_name_rank_9', current: 'city_rank_9', last: 'city_rank_9_last', rate: 'city_rank_9_rate' },
+            '城市排行10': { cityName: 'city_name_rank_10', current: 'city_rank_10', last: 'city_rank_10_last', rate: 'city_rank_10_rate' },
 
             '充电桩数量': { current: 'charge_station_num', last: 'charge_station_num_last', rate: 'charge_station_num_rate' },
             '充电次数总计': { current: 'charge_times', last: 'charge_times_last', rate: 'charge_times_rate' },
@@ -1119,17 +1133,25 @@
                 <label id="${label}">${previousDayLabel}：</label>
                 <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
-            `;
+                `;
+            } else if (label.includes('城市排行')) {
+                let rank = label.split('城市排行')[1];
+                item.innerHTML = `
+                <input type="text" class="city-name-input" data-label="${label}" placeholder="${label}" value="${document.getElementById(dataMap[label].cityName).textContent.replace(/[^\d.]/g, '')}">
+                <label class="city-name-label" id="${label}">${rank}：</label>
+                <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
+                <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
+                `;
             } else {
                 item.innerHTML = `
                 <label id="${label}">${label}：</label>
                 <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(dataMap[label].current).textContent.replace(/[^\d.]/g, '')}">
                 <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(dataMap[label].last).textContent.replace(/[^\d.-]/g, '') || 0}">
-            `;
+                `;
             }
 
             editContainer.appendChild(item);
-        });
+    });
 
         // 应用更新
         document.getElementById('apply-data').addEventListener('click', function () {
@@ -1157,7 +1179,12 @@
                 } else if (label == '云相册+智能安防' || label == '云相册+云存储' || label == '云相册+智慧网络' || label == '云相册+家庭健康') {
                     document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
                     document.getElementById(dataMap[label].last).textContent = `${lastValue.toLocaleString()}%`;
-                } else {
+                } else if (label.includes('城市排行')) {
+                    document.getElementById(dataMap[label].cityName).textContent = document.querySelector(`.city-name-input[data-label="${label}"]`).value;
+                    document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
+                    document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
+                }
+                else {
                     document.getElementById(dataMap[label].current).textContent = currentValue.toLocaleString();
                     document.getElementById(dataMap[label].last).textContent = lastValue.toLocaleString();
                 }
@@ -1241,20 +1268,31 @@
             cityChart = new Chart(document.getElementById('city-distribution-chart'), {
                 type: 'bar',
                 data: {
-                    labels: ['杭州', '绍兴', '金华', '湖州', '温州', '衢州', '上海', '宁波', '南京', '丽水'],
+                    labels: [
+                        document.getElementById('city_name_rank_1').textContent ? document.getElementById('city_name_rank_1').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_2').textContent ? document.getElementById('city_name_rank_2').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_3').textContent ? document.getElementById('city_name_rank_3').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_4').textContent ? document.getElementById('city_name_rank_4').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_5').textContent ? document.getElementById('city_name_rank_5').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_6').textContent ? document.getElementById('city_name_rank_6').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_7').textContent ? document.getElementById('city_name_rank_7').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_8').textContent ? document.getElementById('city_name_rank_8').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_9').textContent ? document.getElementById('city_name_rank_9').textContent : '暂无数据',
+                        document.getElementById('city_name_rank_10').textContent ? document.getElementById('city_name_rank_10').textContent : '暂无数据'
+                    ],
                     datasets: [{
                         label: '本周相册数',
                         data: [
-                            parseInt(document.getElementById('city_hangzhou').textContent),
-                            parseInt(document.getElementById('city_shaoxing').textContent),
-                            parseInt(document.getElementById('city_huzhou').textContent),
-                            parseInt(document.getElementById('city_jinhua').textContent),
-                            parseInt(document.getElementById('city_quzhou').textContent),
-                            parseInt(document.getElementById('city_wenzhou').textContent),
-                            parseInt(document.getElementById('city_ningbo').textContent),
-                            parseInt(document.getElementById('city_shanghai').textContent),
-                            parseInt(document.getElementById('city_lishui').textContent),
-                            parseInt(document.getElementById('city_nanjing').textContent)
+                            parseInt(document.getElementById('city_rank_1').textContent),
+                            parseInt(document.getElementById('city_rank_2').textContent),
+                            parseInt(document.getElementById('city_rank_3').textContent),
+                            parseInt(document.getElementById('city_rank_4').textContent),
+                            parseInt(document.getElementById('city_rank_5').textContent),
+                            parseInt(document.getElementById('city_rank_6').textContent),
+                            parseInt(document.getElementById('city_rank_7').textContent),
+                            parseInt(document.getElementById('city_rank_8').textContent),
+                            parseInt(document.getElementById('city_rank_9').textContent),
+                            parseInt(document.getElementById('city_rank_10').textContent)
                         ],
                         backgroundColor: [
                             'rgba(52, 152, 219, 0.8)',
@@ -1333,17 +1371,29 @@
             ];
             albumTrendChart.update();
 
+            cityChart.data.labels = [
+                document.getElementById('city_name_rank_1').textContent ? document.getElementById('city_name_rank_1').textContent : '暂无数据',
+                document.getElementById('city_name_rank_2').textContent ? document.getElementById('city_name_rank_2').textContent : '暂无数据',
+                document.getElementById('city_name_rank_3').textContent ? document.getElementById('city_name_rank_3').textContent : '暂无数据',
+                document.getElementById('city_name_rank_4').textContent ? document.getElementById('city_name_rank_4').textContent : '暂无数据',
+                document.getElementById('city_name_rank_5').textContent ? document.getElementById('city_name_rank_5').textContent : '暂无数据',
+                document.getElementById('city_name_rank_6').textContent ? document.getElementById('city_name_rank_6').textContent : '暂无数据',
+                document.getElementById('city_name_rank_7').textContent ? document.getElementById('city_name_rank_7').textContent : '暂无数据',
+                document.getElementById('city_name_rank_8').textContent ? document.getElementById('city_name_rank_8').textContent : '暂无数据',
+                document.getElementById('city_name_rank_9').textContent ? document.getElementById('city_name_rank_9').textContent : '暂无数据',
+                document.getElementById('city_name_rank_10').textContent ? document.getElementById('city_name_rank_10').textContent : '暂无数据'
+            ];
             cityChart.data.datasets[0].data = [
-                parseInt(document.getElementById('city_hangzhou').textContent),
-                parseInt(document.getElementById('city_shaoxing').textContent),
-                parseInt(document.getElementById('city_huzhou').textContent),
-                parseInt(document.getElementById('city_jinhua').textContent),
-                parseInt(document.getElementById('city_quzhou').textContent),
-                parseInt(document.getElementById('city_wenzhou').textContent),
-                parseInt(document.getElementById('city_ningbo').textContent),
-                parseInt(document.getElementById('city_shanghai').textContent),
-                parseInt(document.getElementById('city_lishui').textContent),
-                parseInt(document.getElementById('city_nanjing').textContent)
+                parseInt(document.getElementById('city_rank_1').textContent),
+                parseInt(document.getElementById('city_rank_2').textContent),
+                parseInt(document.getElementById('city_rank_3').textContent),
+                parseInt(document.getElementById('city_rank_4').textContent),
+                parseInt(document.getElementById('city_rank_5').textContent),
+                parseInt(document.getElementById('city_rank_6').textContent),
+                parseInt(document.getElementById('city_rank_7').textContent),
+                parseInt(document.getElementById('city_rank_8').textContent),
+                parseInt(document.getElementById('city_rank_9').textContent),
+                parseInt(document.getElementById('city_rank_10').textContent)
             ];
             cityChart.update();
 
@@ -1376,7 +1426,7 @@
 
             // 更新副标题中的日期显示
             updateDateValue();
-            
+
             // 更新编辑区域中的前一日活跃用户数标签
             const editItems = document.querySelectorAll('.edit-item');
             editItems.forEach(item => {
@@ -1489,6 +1539,13 @@
                 if (!data[label]) data[label] = {};
                 data[label][type] = input.value;
             });
+
+            // 保存城市名称数据
+            document.querySelectorAll('.city-name-input').forEach(input => {
+                const label = input.dataset.label;
+                if (!data[label]) data[label] = {};
+                data[label].cityName = input.value;
+            });
             localStorage.setItem('userData', JSON.stringify(data));
         }
 
@@ -1509,6 +1566,12 @@
                         }
                         if (lastInput && data[label].last !== undefined) {
                             lastInput.value = data[label].last;
+                        }
+
+                        // 处理城市名称数据
+                        const cityNameInput = document.querySelector(`.city-name-input[data-label="${label}"]`);
+                        if (cityNameInput && data[label].cityName !== undefined) {
+                            cityNameInput.value = data[label].cityName;
                         }
                     }
                 });
