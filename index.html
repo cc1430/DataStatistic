@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>华数i家业务数据周报</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -420,7 +421,16 @@
     <div class="data-edit-area hide-on-export" id="data-edit-area">
         <h3>数据编辑区域（导出时将隐藏）</h3>
         <div class="edit-grid" id="edit-container"></div>
-        <button class="btn btn-primary" id="apply-data">应用更新</button>
+        <div style="display: flex;justify-content: center;gap: 30px">
+            <a class="btn btn-primary" id="download-excel"
+                style="width: 15em; display: flex; align-items: center; justify-content: center; text-decoration: none;"
+                href="业务数据统计模板.xlsx" download="业务数据统计模板.xlsx">
+                <i class="fas fa-download"></i> 下载Excel模板
+            </a>
+            <button class="btn btn-primary" id="import-excel" style="width: 15em;">导入Excel</button>
+            <button class="btn btn-primary" id="apply-data" style="width: 15em;">应用更新</button>
+        </div>
+
     </div>
 
     <div class="container" id="report-content">
@@ -1723,6 +1733,9 @@
             });
         });
 
+        // 导入Excel功能
+        document.getElementById('import-excel').addEventListener('click', importExcel);
+
         // 导出功能
         document.getElementById('export-pdf').addEventListener('click', async () => {
             document.getElementById('loading').style.display = 'flex';
@@ -1750,6 +1763,94 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('data-edit-area').style.display = 'block';
         });
+
+        /**
+         * 导入Excel
+         */
+        function importExcel() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.xlsx, .xls';
+
+            input.onchange = function (e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        if (!workbook) {
+                            console.error('Excel文件解析失败');
+                            return;
+                        }
+                        if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+                            console.error('Excel文件没有Sheet');
+                            return;
+                        }
+                        const sheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        parseExcelInfo(jsonData);
+
+                        console.info('Excel导入成功');
+                    } catch (error) {
+                        console.error('Excel导入失败:', error);
+                    }
+
+
+
+
+                };
+                reader.readAsArrayBuffer(file);
+            };
+
+            input.click();
+        }
+
+        /**
+         * 解析数据填入对应的输入框内
+         */
+        function parseExcelInfo(data) {
+            if (!data || data.length === 0) {
+                console.warn('Excel数据为空');
+                return;
+            }
+
+            for (let i = 0; i < data.length; i++) {
+                let label = data[i]['数据名称'];
+                const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
+                const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
+                const cityNameInput = document.querySelector(`.city-name-input[data-label="${label}"]`);
+
+                // 处理实际数据
+                if (currentInput && data[i]['实际数据'] !== undefined) {
+                    currentInput.value = processValue(data[i]['实际数据'], label);
+                }
+
+                // 处理上周数据
+                if (lastInput && data[i]['上周数据'] !== undefined) {
+                    lastInput.value = processValue(data[i]['上周数据'], label);
+                }
+
+                // 处理城市名称
+                if (cityNameInput && data[i]['城市名称'] !== undefined) {
+                    cityNameInput.value = data[i]['城市名称'];
+                }
+            }
+        }
+
+        /**
+         *  处理数值数据
+         */
+        function processValue(value, label) {
+            // 对于百分比数据，需要乘以100
+            if (isDecimal(value) && (label.includes('率') || label.includes('云相册+'))) {
+                return value * 100;
+            }
+            return value;
+        }
 
         function updateDateValue() {
             //初始化图表标题内容
@@ -1844,7 +1945,9 @@
          * @returns 
          */
         function isDecimal(num) {
-            return /^[+-]?\d+(\.\d+)?$/.test(num);
+            // 转换为数字后判断是否为有限数字且包含小数部分
+            const parsedNum = parseFloat(num);
+            return !isNaN(parsedNum) && isFinite(parsedNum) && parsedNum % 1 !== 0;
         }
 
         /**
