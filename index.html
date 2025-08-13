@@ -783,9 +783,9 @@
                         </tr>
                         <tr>
                             <td>云相册领用人数</td>
-                            <td style="text-align:right;font-weight:600"><span id="album_claimed">2,761</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="album_claimed">2761</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="album_claimed_last">1,926</span></td>
+                                    id="album_claimed_last">1926</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="album_claimed_rate">↑ 43.35%</span></td>
                         </tr>
@@ -799,10 +799,10 @@
                         </tr>
                         <tr>
                             <td>总开通空间(GB)</td>
-                            <td style="text-align:right;font-weight:600"><span id="album_space_total">27,610</span>
+                            <td style="text-align:right;font-weight:600"><span id="album_space_total">27610</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="album_space_total_last">19,260G</span></td>
+                                    id="album_space_total_last">19260</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="album_space_total_rate">↑ 141.35%</span></td>
                         </tr>
@@ -810,7 +810,7 @@
                             <td>总使用空间(GB)</td>
                             <td style="text-align:right;font-weight:600"><span id="album_space_used">501</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="album_space_used_last">307G</span></td>
+                                    id="album_space_used_last">307</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="album_space_used_rate">↑ 157.98%</span></td>
                         </tr>
@@ -1535,34 +1535,50 @@
             loadDataFromLocalStorage();
 
             albumTrendChart = new Chart(document.getElementById('album-trend-chart'), {
-                type: 'line',
+                type: 'bar',
                 data: {
-                    labels: ['领用人数', '使用人数', '开通空间(G)', '使用空间(G)'],
+                    labels: ['领用人数', '使用人数', '开通空间(10GB)', '使用空间(GB)'],
                     datasets: [{
                         label: '上周数据',
                         data: [
-                            parseInt(document.getElementById('album_claimed_last').textContent),
-                            parseInt(document.getElementById('album_used_last').textContent),
-                            parseInt(document.getElementById('album_space_total_last').textContent),
-                            parseInt(document.getElementById('album_space_used_last').textContent)
+                            parseInt(document.getElementById('album_claimed_last').textContent.replace(/[^\d.-]/g, '')) || 0,
+                            parseInt(document.getElementById('album_used_last').textContent.replace(/[^\d.-]/g, '')) || 0,
+                            parseInt(document.getElementById('album_space_total_last').textContent.replace(/[^\d.-]/g, '')) / 10 || 0,
+                            parseInt(document.getElementById('album_space_used_last').textContent.replace(/[^\d.-]/g, '')) || 0
                         ],
+                        backgroundColor: 'rgba(52, 152, 219, 0.8)',
                         borderColor: '#3498db',
-                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                        tension: 0.4
+                        borderWidth: 1
                     }, {
                         label: '本周数据',
                         data: [
-                            parseInt(document.getElementById('album_claimed').textContent),
-                            parseInt(document.getElementById('album_used').textContent),
-                            parseInt(document.getElementById('album_space_total').textContent),
-                            parseInt(document.getElementById('album_space_used').textContent)
+                            parseInt(document.getElementById('album_claimed').textContent.replace(/[^\d.-]/g, '')) || 0,
+                            parseInt(document.getElementById('album_used').textContent.replace(/[^\d.-]/g, '')) || 0,
+                            parseInt(document.getElementById('album_space_total').textContent.replace(/[^\d.-]/g, '')) / 10 || 0,
+                            parseInt(document.getElementById('album_space_used').textContent.replace(/[^\d.-]/g, '')) || 0
                         ],
+                        backgroundColor: 'rgba(39, 174, 96, 0.8)',
                         borderColor: '#27ae60',
-                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
-                        tension: 0.4
+                        borderWidth: 1
                     }]
                 },
-                options: chartOptions
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 12 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
             });
 
             cityChart = new Chart(document.getElementById('city-distribution-chart'), {
@@ -1658,16 +1674,16 @@
 
         function updateCharts() {
             albumTrendChart.data.datasets[0].data = [
-                parseInt(document.getElementById('album_claimed_last').textContent),
-                parseInt(document.getElementById('album_used_last').textContent),
-                parseInt(document.getElementById('album_space_total_last').textContent),
-                parseInt(document.getElementById('album_space_used_last').textContent)
+                parseInt(document.getElementById('album_claimed_last').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('album_used_last').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('album_space_total_last').textContent.replace(/[^\d.-]/g, '')) / 10 || 0,
+                parseInt(document.getElementById('album_space_used_last').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             albumTrendChart.data.datasets[1].data = [
-                parseInt(document.getElementById('album_claimed').textContent),
-                parseInt(document.getElementById('album_used').textContent),
-                parseInt(document.getElementById('album_space_total').textContent),
-                parseInt(document.getElementById('album_space_used').textContent)
+                parseInt(document.getElementById('album_claimed').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('album_used').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('album_space_total').textContent.replace(/[^\d.-]/g, '')) / 10 || 0,
+                parseInt(document.getElementById('album_space_used').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             albumTrendChart.update();
 
@@ -1684,34 +1700,34 @@
                 document.getElementById('city_name_rank_10').textContent ? document.getElementById('city_name_rank_10').textContent : '暂无数据'
             ];
             cityChart.data.datasets[0].data = [
-                parseInt(document.getElementById('city_rank_1').textContent),
-                parseInt(document.getElementById('city_rank_2').textContent),
-                parseInt(document.getElementById('city_rank_3').textContent),
-                parseInt(document.getElementById('city_rank_4').textContent),
-                parseInt(document.getElementById('city_rank_5').textContent),
-                parseInt(document.getElementById('city_rank_6').textContent),
-                parseInt(document.getElementById('city_rank_7').textContent),
-                parseInt(document.getElementById('city_rank_8').textContent),
-                parseInt(document.getElementById('city_rank_9').textContent),
-                parseInt(document.getElementById('city_rank_10').textContent)
+                parseInt(document.getElementById('city_rank_1').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_2').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_3').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_4').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_5').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_6').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_7').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_8').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_9').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('city_rank_10').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             cityChart.update();
 
             storagePieChart.data.datasets[0].data = [
-                parseInt(document.getElementById('storage_plan_7d_year').textContent),
-                parseInt(document.getElementById('storage_plan_7d_month').textContent),
-                parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent),
-                parseInt(document.getElementById('storage_plan_all_year').textContent),
-                parseInt(document.getElementById('storage_plan_all_month').textContent),
-                parseInt(document.getElementById('storage_plan_all_continuous_month').textContent)
+                parseInt(document.getElementById('storage_plan_7d_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('storage_plan_7d_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('storage_plan_all_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('storage_plan_all_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('storage_plan_all_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             storagePieChart.update();
 
             overlapChart.data.datasets[0].data = [
-                parseInt(document.getElementById('overlap_security').textContent),
-                parseInt(document.getElementById('overlap_storage').textContent),
-                parseInt(document.getElementById('overlap_health').textContent),
-                parseInt(document.getElementById('overlap_network').textContent)
+                parseInt(document.getElementById('overlap_security').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('overlap_storage').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('overlap_health').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('overlap_network').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             overlapChart.update();
         }
@@ -1824,9 +1840,21 @@
 
             for (let i = 0; i < data.length; i++) {
                 let label = data[i]['数据名称'];
+                console.log(label);
                 const currentInput = document.querySelector(`.current-input[data-label="${label}"]`);
                 const lastInput = document.querySelector(`.last-week-input[data-label="${label}"]`);
                 const cityNameInput = document.querySelector(`.city-name-input[data-label="${label}"]`);
+
+                if (!currentInput) {
+                    console.log("currentInput not found");
+                }
+                if (!lastInput) {
+                    console.log("lastInput not found");
+                }
+
+                let currentValue = data[i]['实际数据'];
+                let lastValue = data[i]['上周数据'];
+                console.log(`实际数据：${currentValue}, 上周数据：${lastValue}`);
 
                 // 处理实际数据
                 if (currentInput && data[i]['实际数据'] !== undefined) {
