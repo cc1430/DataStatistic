@@ -507,6 +507,14 @@
                             <td style="text-align:center"><span class="change-indicator positive" , id="app_mau_rate">↑
                                     1.23%</span></td>
                         </tr>
+                        <tr>
+                            <td>月活跃用户数（未去重）</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_mau_duplicated">17,198</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="app_mau_duplicated_last">3000</span>
+                            </td>
+                            <td style="text-align:center"><span class="change-indicator positive" , id="app_mau_duplicated_rate">↑
+                                    1.23%</span></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -1115,6 +1123,12 @@
                         current: 'app_mau',
                         last: 'app_mau_last',
                         rate: 'app_mau_rate'
+                    },
+                    {
+                        label: '月活跃用户数（未去重）',
+                        current: 'app_mau_duplicated',
+                        last: 'app_mau_duplicated_last',
+                        rate: 'app_mau_duplicated_rate'
                     }
                 ]
             },
@@ -1879,7 +1893,7 @@
         function processValue(value, label) {
             // 对于百分比数据，需要乘以100
             if (isDecimal(value) && (label.includes('率') || label.includes('云相册+'))) {
-                return value * 100;
+                return parseFloat((value * 100).toFixed(2));
             }
             return value;
         }
