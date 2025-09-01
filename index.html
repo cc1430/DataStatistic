@@ -509,10 +509,13 @@
                         </tr>
                         <tr>
                             <td>月活跃用户数（未去重）</td>
-                            <td style="text-align:right;font-weight:600"><span id="app_mau_duplicated">17,198</span></td>
-                            <td style="text-align:right;font-weight:600;color:#aaa"><span id="app_mau_duplicated_last">3000</span>
+                            <td style="text-align:right;font-weight:600"><span id="app_mau_duplicated">17,198</span>
                             </td>
-                            <td style="text-align:center"><span class="change-indicator positive" , id="app_mau_duplicated_rate">↑
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_mau_duplicated_last">3000</span>
+                            </td>
+                            <td style="text-align:center"><span class="change-indicator positive" ,
+                                    id="app_mau_duplicated_rate">↑
                                     1.23%</span></td>
                         </tr>
                     </table>
@@ -1060,6 +1063,19 @@
             </div>
             <div class="charts-row">
                 <div class="chart-card">
+                    <div class="chart-title">华数i家APP近7天流量趋势图</div>
+                    <div class="chart-wrapper">
+                        <canvas id="7d-traffic-trend-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card" style="display: none;">
+                    <div class="chart-title">华数i家APP近7天各时段流量趋势图</div>
+                    <div class="chart-wrapper">
+                        <canvas id="7d-timeslot-traffic-trend-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
                     <div class="chart-title">云相册用户增长趋势</div>
                     <div class="chart-wrapper">
                         <canvas id="album-trend-chart"></canvas>
@@ -1129,6 +1145,53 @@
                         current: 'app_mau_duplicated',
                         last: 'app_mau_duplicated_last',
                         rate: 'app_mau_duplicated_rate'
+                    }
+                ]
+            },
+            {
+                title: "华数i家本周UV、PV(目前只有UV数据)",
+                items: [
+                    {
+                        label: 'Day1_UV_PV',
+                        current: 'day1_uv',
+                        last: 'day1_pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day2_UV_PV',
+                        current: 'day2_uv',
+                        last: 'day2_pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day3_UV_PV',
+                        current: 'day3_uv',
+                        last: 'day3_pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day4_UV_PV',
+                        current: 'day4_uv',
+                        last: 'day4_pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day5_UV_PV',
+                        current: 'day5_uv',
+                        last: 'day5_pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day6_UV_PV',
+                        current: 'day6_uv',
+                        last: 'day6pv',
+                        rate: ''
+                    },
+                    {
+                        label: 'Day7_UV_PV',
+                        current: 'day7_uv',
+                        last: 'day7_pv',
+                        rate: ''
                     }
                 ]
             },
@@ -1481,10 +1544,15 @@
                 } else {
                     currentValue = parseInt(input.value) || 0;
                 }
-                if (isDecimal(document.querySelector(`.last-week-input[data-label="${label}"]`).value)) {
-                    lastValue = parseFloat(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
+
+                let last_week_input = document.querySelector(`.last-week-input[data-label="${label}"]`);
+                if (!last_week_input) {
+                    return;
+                }
+                if (isDecimal(last_week_input.value)) {
+                    lastValue = parseFloat(last_week_input.value) || 0;
                 } else {
-                    lastValue = parseInt(document.querySelector(`.last-week-input[data-label="${label}"]`).value) || 0;
+                    lastValue = parseInt(last_week_input.value) || 0;
                 }
 
                 // 更新当前值
@@ -1542,11 +1610,13 @@
             }
         };
 
-        let albumTrendChart, cityChart, storagePieChart, overlapChart;
+        let albumTrendChart, cityChart, storagePieChart, overlapChart, senvenDayTrafficTrendChart, senvenDayTimeSlotTrafficTrendChart;
 
         function initCharts() {
             // 加载保存的数据
             loadDataFromLocalStorage();
+
+            initSenvenDayTrafficTrendChart();
 
             albumTrendChart = new Chart(document.getElementById('album-trend-chart'), {
                 type: 'bar',
@@ -1686,6 +1756,81 @@
             });
         }
 
+        function initSenvenDayTrafficTrendChart() {
+            senvenDayTrafficTrendChart = new Chart(document.getElementById('7d-traffic-trend-chart'), {
+                type: 'line',
+                data: {
+                    labels: [
+                        document.getElementById('Day1_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day2_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day3_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day4_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day5_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day6_UV_PV').textContent.replace('：', ''),
+                        document.getElementById('Day7_UV_PV').textContent.replace('：', '')
+                    ],
+                    datasets: [{
+                        label: '访客数',
+                        data: [
+                            document.querySelector(`.current-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day1_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day2_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day3_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day4_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day5_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day6_UV_PV"]`).value : null,
+                            document.querySelector(`.current-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day7_UV_PV"]`).value : null,
+                        ],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#3498db',
+                        pointBorderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    },
+                    // {
+                    //     label: '浏览量',
+                    //     data: [
+                    //         document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value : 123,
+                    //         document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value : 234,
+                    //         document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value : 312,
+                    //         document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value : 123,
+                    //         document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value : 234,
+                    //         document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value : 121,
+                    //         document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value : 313,
+                    //     ],
+                    //     borderColor: '#27ae60',
+                    //     backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                    //     borderWidth: 2,
+                    //     pointRadius: 3,
+                    //     pointBackgroundColor: '#27ae60',
+                    //     pointBorderWidth: 2,
+                    //     fill: true,
+                    //     tension: 0.1
+                    // }
+                ]},
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 12 },
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            })
+
+        }
+
         function updateCharts() {
             albumTrendChart.data.datasets[0].data = [
                 parseInt(document.getElementById('album_claimed_last').textContent.replace(/[^\d.-]/g, '')) || 0,
@@ -1744,6 +1889,43 @@
                 parseInt(document.getElementById('overlap_network').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
             overlapChart.update();
+
+            // 更新近7天流量趋势图
+            updateSevenDayTrafficTrendChart();
+        }
+
+        // 添加更新近7天流量趋势图的函数
+        function updateSevenDayTrafficTrendChart() {
+            senvenDayTrafficTrendChart.data.labels = [
+                document.getElementById('Day1_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day2_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day3_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day4_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day5_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day6_UV_PV').textContent.replace('：', ''),
+                document.getElementById('Day7_UV_PV').textContent.replace('：', '')
+            ]
+
+            senvenDayTrafficTrendChart.data.datasets[0].data = [
+                document.querySelector(`.current-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day1_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day2_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day3_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day4_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day5_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day6_UV_PV"]`).value : null,
+                document.querySelector(`.current-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.current-input[data-label="Day7_UV_PV"]`).value : null,
+            ]
+
+            // senvenDayTrafficTrendChart.data.datasets[1].data = [
+            //     document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value : null,
+            //     document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value : null,
+            // ]
+            senvenDayTrafficTrendChart.update();
         }
 
         // 初始化图表
@@ -1761,8 +1943,16 @@
             const editItems = document.querySelectorAll('.edit-item');
             editItems.forEach(item => {
                 const labelElement = item.querySelector('label');
-                if (labelElement && labelElement.id.includes('前一日活跃用户数')) {
-                    labelElement.textContent = `${previousDayLabel}：`;
+                if (labelElement) {
+                    if (labelElement.id.includes('前一日活跃用户数')) {
+                        labelElement.textContent = `${previousDayLabel}：`;
+                    }
+
+                    if (labelElement.id.includes('Day1_UV_PV') || labelElement.id.includes('Day2_UV_PV') || labelElement.id.includes('Day3_UV_PV') || labelElement.id.includes('Day4_UV_PV') || labelElement.id.includes('Day5_UV_PV') || labelElement.id.includes('Day6_UV_PV') || labelElement.id.includes('Day7_UV_PV')) {
+                        let x = labelElement.id.charAt(3);
+                        let title = `${getPreviousNDay(8 - x)}：`;
+                        labelElement.textContent = title;
+                    }
                 }
             });
         });
@@ -1946,6 +2136,14 @@
                         <input type="number" class="current-input" data-label="${label}" value="${document.getElementById(item.current).textContent.replace(/[^\d.]/g, '')}">
                         <input type="number" class="last-week-input last-week" data-label="${label}" value="${document.getElementById(item.last).textContent.replace(/[^\d.-]/g, '') || 0}">
                         `;
+                    } else if (label.includes('Day1_UV_PV') || label.includes('Day2_UV_PV') || label.includes('Day3_UV_PV') || label.includes('Day4_UV_PV') || label.includes('Day5_UV_PV') || label.includes('Day6_UV_PV') || label.includes('Day7_UV_PV')) {
+                        let x = label.charAt(3);
+                        let title = `${getPreviousNDay(8 - x)}`;
+                        itemDiv.innerHTML = `
+                        <label id="${label}">${title}：</label>
+                        <input type="number" class="current-input" data-label="${label}">
+                        <input type="number" class="last-week-input last-week" data-label="${label}" style="display: none;">
+                        `;
                     } else {
                         itemDiv.innerHTML = `
                         <label id="${label}">${label}：</label>
@@ -2013,6 +2211,23 @@
 
             // 返回格式化后的字符串
             return `${month}月${day}日`;
+        }
+
+        function getPreviousNDay(n) {
+            // 创建一个新的Date对象（默认为当前日期）
+            let date = selectedDate;
+
+            // 将日期设置为前n天
+            let previousDate = new Date(date);
+            previousDate.setDate(date.getDate() - n);
+
+            // 获取月、日
+            let month = previousDate.getMonth() + 1; // 月份从0开始，需要加1
+            let day = previousDate.getDate();
+
+            // 返回日期字符串
+            return `${month}月${day}日`; //07月17日
+
         }
 
         /**
