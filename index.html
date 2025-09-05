@@ -1568,8 +1568,15 @@
                     document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
                 }
                 else {
-                    document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
-                    document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
+                    if(!document.getElementById(itemData.current)) {
+                        console.error('Missing element for label:', label);
+                    }
+                    if(document.getElementById(itemData.current)) {
+                        document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
+                    }
+                    if(document.getElementById(itemData.last)) {
+                        document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
+                    }
                 }
 
                 if (label == '前一日活跃用户数') {
