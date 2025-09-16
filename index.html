@@ -500,6 +500,14 @@
                                     id="app_avg_dau_7d_rate">↑ 1.23%</span></td>
                         </tr>
                         <tr>
+                            <td>活跃度占比</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_active_ratio">-</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_active_ratio_last">-</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="app_active_ratio_rate">-</span></td>
+                        </tr>
+                        <tr>
                             <td>月活跃用户数（去重）</td>
                             <td style="text-align:right;font-weight:600"><span id="app_mau">17,198</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span id="app_mau_last">3000</span>
@@ -1135,6 +1143,12 @@
                         rate: 'app_avg_dau_7d_rate'
                     },
                     {
+                        label: '活跃度占比',
+                        current: 'app_active_ratio',
+                        last: 'app_active_ratio_last',
+                        rate: 'app_active_ratio_rate'
+                    },
+                    {
                         label: '月活跃用户数（去重）',
                         current: 'app_mau',
                         last: 'app_mau_last',
@@ -1568,13 +1582,13 @@
                     document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
                 }
                 else {
-                    if(!document.getElementById(itemData.current)) {
+                    if (!document.getElementById(itemData.current)) {
                         console.error('Missing element for label:', label);
                     }
-                    if(document.getElementById(itemData.current)) {
+                    if (document.getElementById(itemData.current)) {
                         document.getElementById(itemData.current).textContent = currentValue.toLocaleString();
                     }
-                    if(document.getElementById(itemData.last)) {
+                    if (document.getElementById(itemData.last)) {
                         document.getElementById(itemData.last).textContent = lastValue.toLocaleString();
                     }
                 }
@@ -1599,6 +1613,9 @@
                         rateSpan.className = `change-indicator neutral`;
                     }
                 }
+
+                //计算活跃度占比（近7日平均日活跃/总用户数）
+                updateActiveRatio();
 
                 // 更新图表
                 updateCharts();
@@ -1796,27 +1813,28 @@
                         fill: true,
                         tension: 0.1
                     },
-                    // {
-                    //     label: '浏览量',
-                    //     data: [
-                    //         document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value : 123,
-                    //         document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value : 234,
-                    //         document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value : 312,
-                    //         document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value : 123,
-                    //         document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value : 234,
-                    //         document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value : 121,
-                    //         document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value : 313,
-                    //     ],
-                    //     borderColor: '#27ae60',
-                    //     backgroundColor: 'rgba(39, 174, 96, 0.1)',
-                    //     borderWidth: 2,
-                    //     pointRadius: 3,
-                    //     pointBackgroundColor: '#27ae60',
-                    //     pointBorderWidth: 2,
-                    //     fill: true,
-                    //     tension: 0.1
-                    // }
-                ]},
+                        // {
+                        //     label: '浏览量',
+                        //     data: [
+                        //         document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day1_UV_PV"]`).value : 123,
+                        //         document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day2_UV_PV"]`).value : 234,
+                        //         document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day3_UV_PV"]`).value : 312,
+                        //         document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day4_UV_PV"]`).value : 123,
+                        //         document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day5_UV_PV"]`).value : 234,
+                        //         document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day6_UV_PV"]`).value : 121,
+                        //         document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value : 313,
+                        //     ],
+                        //     borderColor: '#27ae60',
+                        //     backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        //     borderWidth: 2,
+                        //     pointRadius: 3,
+                        //     pointBackgroundColor: '#27ae60',
+                        //     pointBorderWidth: 2,
+                        //     fill: true,
+                        //     tension: 0.1
+                        // }
+                    ]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -1933,6 +1951,48 @@
             //     document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value ? document.querySelector(`.last-week-input[data-label="Day7_UV_PV"]`).value : null,
             // ]
             senvenDayTrafficTrendChart.update();
+        }
+
+        // 计算活跃度占比（近7日平均日活跃/总用户数）
+        function updateActiveRatio() {
+            const avgDauElement = document.getElementById('app_avg_dau_7d');
+            const totalUsersElement = document.getElementById('app_total_users');
+            const avgDauLastElement = document.getElementById('app_avg_dau_7d_last');
+            const totalUsersLastElement = document.getElementById('app_total_users_last');
+
+            if (avgDauElement && totalUsersElement) {
+                const avgDau = parseInt(avgDauElement.textContent.replace(/[^\d]/g, '')) || 0;
+                const totalUsers = parseInt(totalUsersElement.textContent.replace(/[^\d]/g, '')) || 1;
+                const ratio = totalUsers > 0 ? ((avgDau / totalUsers) * 100).toFixed(2) : 0;
+
+                document.getElementById('app_active_ratio').textContent = `${ratio}%`;
+
+                // 计算上次的活跃度占比
+                if (avgDauLastElement && totalUsersLastElement) {
+                    const avgDauLast = parseInt(avgDauLastElement.textContent.replace(/[^\d]/g, '')) || 0;
+                    const totalUsersLast = parseInt(totalUsersLastElement.textContent.replace(/[^\d]/g, '')) || 1;
+                    const ratioLast = totalUsersLast > 0 ? ((avgDauLast / totalUsersLast) * 100).toFixed(2) : 0;
+
+                    document.getElementById('app_active_ratio_last').textContent = `${ratioLast}%`;
+
+                    // 计算环比变化
+                    if (ratioLast > 0) {
+                        const rate = (((parseFloat(ratio) - parseFloat(ratioLast)) / parseFloat(ratioLast)) * 100).toFixed(2);
+                        const rateSpan = document.getElementById('app_active_ratio_rate');
+
+                        if (rateSpan) {
+                            rateSpan.textContent = `${rate > 0 ? '↑' : '↓'} ${Math.abs(rate)}%`;
+                            rateSpan.className = `change-indicator ${rate > 0 ? 'positive' : rate < 0 ? 'negative' : 'neutral'}`;
+                        }
+                    } else {
+                        const rateSpan = document.getElementById('app_active_ratio_rate');
+                        if (rateSpan) {
+                            rateSpan.textContent = `新增指标`;
+                            rateSpan.className = `change-indicator neutral`;
+                        }
+                    }
+                }
+            }
         }
 
         // 初始化图表
@@ -2124,7 +2184,8 @@
                 const gridDiv = document.createElement('div');
                 gridDiv.className = 'edit-grid';
 
-                section.items.forEach(item => {
+                for (let i = 0; i < section.items.length; i++) {
+                    const item = section.items[i];
                     const label = item.label;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'edit-item';
@@ -2151,6 +2212,8 @@
                         <input type="number" class="current-input" data-label="${label}">
                         <input type="number" class="last-week-input last-week" data-label="${label}" style="display: none;">
                         `;
+                    } else if (label.includes('活跃度占比')) {
+                        continue;
                     } else {
                         itemDiv.innerHTML = `
                         <label id="${label}">${label}：</label>
@@ -2160,8 +2223,8 @@
                     }
 
                     gridDiv.appendChild(itemDiv);
-                });
-
+                }
+                
                 sectionDiv.appendChild(gridDiv);
                 editContainer.appendChild(sectionDiv);
             });
