@@ -462,6 +462,55 @@
         </header>
 
         <div class="card-container">
+            <!-- 华数i家业务总用户数 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-mobile-alt"></i> 华数i家业务总用户数
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>数据指标</th>
+                            <th style="text-align:right;white-space:nowrap">本周数据</th>
+                            <th style="text-align:right;white-space:nowrap">上周数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>华数i家APP</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_total_users">24,097</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_total_users_last">23,185</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="app_total_users_rate">↑ 3.93%</span></td>
+                        </tr>
+                        <tr>
+                            <td>华数眼</td>
+                            <td style="text-align:right;font-weight:600"><span id="monitor_total_users">5,928</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="monitor_total_users_last">5,686</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="monitor_total_users_rate">↑ 4.26%</span></td>
+                        </tr>
+                        <tr>
+                            <td>云相册</td>
+                            <td style="text-align:right;font-weight:600"><span id="album_user_num">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="album_user_num_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="album_user_num_rate">↑ 1.23%</span></td>
+                        </tr>
+                        <tr>
+                            <td>充电桩</td>
+                            <td style="text-align:right;font-weight:600"><span id="charge_user_num">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="charge_user_num_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="charge_user_num_rate">↑ 1.23%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <!-- 华数i家APP -->
             <div class="card">
                 <div class="card-header">
@@ -475,14 +524,14 @@
                             <th style="text-align:right;white-space:nowrap">上周数据</th>
                             <th style="text-align:center">环比</th>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>总用户数</td>
                             <td style="text-align:right;font-weight:600"><span id="app_total_users">24,097</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="app_total_users_last">23,185</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="app_total_users_rate">↑ 3.93%</span></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td id="app_lastday_dau">前一日活跃用户数</td>
                             <td style="text-align:right;font-weight:600"><span id="app_dau_717">5,928</span></td>
@@ -1052,14 +1101,14 @@
                             <td style="text-align:center"><span class="change-indicator neutral" ,
                                     id="charge_service_fee_total_rate">新增指标</span></td>
                         </tr> -->
-                        <tr>
+                        <!-- <tr>
                             <td>使用用户(去重)</td>
                             <td style="text-align:right;font-weight:600"><span id="charge_user_num">16</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="charge_user_num_last">11</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral" ,
                                     id="charge_user_num_rate">新增指标</span></td>
-                        </tr>
+                        </tr> -->
                     </table>
                 </div>
             </div>
@@ -1122,14 +1171,43 @@
         // 数据映射表
         const businessData = [
             {
-                title: "华数i家APP",
+                title: "华数i家业务总用户数",
                 items: [
                     {
-                        label: '总用户数',
+                        label: '华数i家APP',
                         current: 'app_total_users',
                         last: 'app_total_users_last',
                         rate: 'app_total_users_rate'
                     },
+                    {
+                        label: '华数眼',
+                        current: 'monitor_total_users',
+                        last: 'monitor_total_users_last',
+                        rate: 'monitor_total_users_rate'
+                    },
+                    {
+                        label: '云相册',
+                        current: 'album_user_num',
+                        last: 'album_user_num_last',
+                        rate: 'album_user_num_rate'
+                    },
+                    {
+                        label: '充电桩',
+                        current: 'charge_user_num',
+                        last: 'charge_user_num_last',
+                        rate: 'charge_user_num_rate'
+                    }
+                ]
+            },
+            {
+                title: "华数i家APP",
+                items: [
+                    // {
+                    //     label: '总用户数',
+                    //     current: 'app_total_users',
+                    //     last: 'app_total_users_last',
+                    //     rate: 'app_total_users_rate'
+                    // },
                     {
                         label: '前一日活跃用户数',
                         current: 'app_dau_717',
@@ -1515,12 +1593,12 @@
                         last: 'charge_service_fee_last',
                         rate: 'charge_service_fee_rate'
                     },
-                    {
-                        label: '使用用户(去重)',
-                        current: 'charge_user_num',
-                        last: 'charge_user_num_last',
-                        rate: 'charge_user_num_rate'
-                    }
+                    // {
+                    //     label: '使用用户(去重)',
+                    //     current: 'charge_user_num',
+                    //     last: 'charge_user_num_last',
+                    //     rate: 'charge_user_num_rate'
+                    // }
                 ]
             }
         ];
