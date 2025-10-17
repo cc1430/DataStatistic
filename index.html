@@ -465,7 +465,7 @@
             <!-- 华数i家业务总用户数 -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-mobile-alt"></i> 华数i家业务总用户数
+                    <i class="fas fa-mobile-alt"></i> 华数i家用户数
                 </div>
                 <div class="card-body">
                     <table class="data-table">
@@ -476,7 +476,15 @@
                             <th style="text-align:center">环比</th>
                         </tr>
                         <tr>
-                            <td>华数i家APP</td>
+                            <td>华数i家业务总用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="wasu_ihome_total_users">24,097</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="wasu_ihome_total_users_last">23,185</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="wasu_ihome_total_users_rate">↑ 3.93%</span></td>
+                        </tr>
+                        <tr>
+                            <td>华数i家App用户数</td>
                             <td style="text-align:right;font-weight:600"><span id="app_total_users">24,097</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="app_total_users_last">23,185</span></td>
@@ -484,28 +492,36 @@
                                     id="app_total_users_rate">↑ 3.93%</span></td>
                         </tr>
                         <tr>
-                            <td>华数眼</td>
-                            <td style="text-align:right;font-weight:600"><span id="monitor_total_users">5,928</span></td>
+                            <td>安防场景用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="security_users">5,928</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="monitor_total_users_last">5,686</span></td>
+                                    id="security_users_last">5,686</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="monitor_total_users_rate">↑ 4.26%</span></td>
+                                    id="security_users_rate">↑ 4.26%</span></td>
                         </tr>
                         <tr>
-                            <td>云相册</td>
-                            <td style="text-align:right;font-weight:600"><span id="album_user_num">5,681</span></td>
+                            <td>家庭云场景用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="home_cloud_users">5,681</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="album_user_num_last">5,612</span></td>
+                                    id="home_cloud_users_last">5,612</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="album_user_num_rate">↑ 1.23%</span></td>
+                                    id="home_cloud_users_rate">↑ 1.23%</span></td>
                         </tr>
                         <tr>
-                            <td>充电桩</td>
+                            <td>家庭充电场景用户数</td>
                             <td style="text-align:right;font-weight:600"><span id="charge_user_num">5,681</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="charge_user_num_last">5,612</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="charge_user_num_rate">↑ 1.23%</span></td>
+                        </tr>
+                        <tr>
+                            <td>公寓场景用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="apartment_user">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="apartment_user_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="apartment_user_rate">↑ 1.23%</span></td>
                         </tr>
                     </table>
                 </div>
@@ -1171,31 +1187,43 @@
         // 数据映射表
         const businessData = [
             {
-                title: "华数i家业务总用户数",
+                title: "华数i家用户数",
                 items: [
                     {
-                        label: '华数i家APP',
+                        label: '华数i家业务总用户数',
+                        current: 'wasu_ihome_total_users',
+                        last: 'wasu_ihome_total_users_last',
+                        rate: 'wasu_ihome_total_users_rate'
+                    },
+                    {
+                        label: '华数i家App用户数',
                         current: 'app_total_users',
                         last: 'app_total_users_last',
                         rate: 'app_total_users_rate'
                     },
                     {
-                        label: '华数眼',
-                        current: 'monitor_total_users',
-                        last: 'monitor_total_users_last',
-                        rate: 'monitor_total_users_rate'
+                        label: '安防场景用户数',
+                        current: 'security_users',
+                        last: 'security_users_last',
+                        rate: 'security_users_rate'
                     },
                     {
-                        label: '云相册',
-                        current: 'album_user_num',
-                        last: 'album_user_num_last',
-                        rate: 'album_user_num_rate'
+                        label: '家庭云场景用户数',
+                        current: 'home_cloud_users',
+                        last: 'home_cloud_users_last',
+                        rate: 'home_cloud_users_rate'
                     },
                     {
-                        label: '充电桩',
+                        label: '家庭充电场景用户数',
                         current: 'charge_user_num',
                         last: 'charge_user_num_last',
                         rate: 'charge_user_num_rate'
+                    },
+                    {
+                        label: '公寓场景用户数',
+                        current: 'apartment_user',
+                        last: 'apartment_user_last',
+                        rate: 'apartment_user_rate'
                     }
                 ]
             },
