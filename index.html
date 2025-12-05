@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="./scripts/utils.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
@@ -592,6 +593,24 @@
                             <td style="text-align:center"><span class="change-indicator positive" ,
                                     id="app_mau_duplicated_rate">↑
                                     1.23%</span></td>
+                        </tr>
+
+                        <tr>
+                            <th>数据指标</th>
+                            <th style="text-align:right;white-space:nowrap" id="app_ad_income_current_period">11月数据</th>
+                            <th style="text-align:right;white-space:nowrap" id="app_ad_income_last_period">10月数据</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>广告收入（元）</td>
+                            <td style="text-align:right;font-weight:600"><span id="app_ad_income">1,976.27</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="app_ad_income_last">0</span>
+                            </td>
+                            <td style="text-align:center"><span class="change-indicator positive" ,
+                                    id="app_ad_income_rate">↑
+                                    -</span></td>
                         </tr>
                     </table>
                 </div>
@@ -1267,6 +1286,12 @@
                         current: 'app_mau_duplicated',
                         last: 'app_mau_duplicated_last',
                         rate: 'app_mau_duplicated_rate'
+                    },
+                    {
+                        label: '广告收入（元）',
+                        current: 'app_ad_income',
+                        last: 'app_ad_income_last',
+                        rate: 'app_ad_income_rate'
                     }
                 ]
             },
@@ -2125,7 +2150,7 @@
 
                     if (labelElement.id.includes('Day1_UV_PV') || labelElement.id.includes('Day2_UV_PV') || labelElement.id.includes('Day3_UV_PV') || labelElement.id.includes('Day4_UV_PV') || labelElement.id.includes('Day5_UV_PV') || labelElement.id.includes('Day6_UV_PV') || labelElement.id.includes('Day7_UV_PV')) {
                         let x = labelElement.id.charAt(3);
-                        let title = `${getPreviousNDay(8 - x)}：`;
+                        let title = `${getPreviousDay(selectedDate, 8 - x)}：`;
                         labelElement.textContent = title;
                     }
                 }
@@ -2145,7 +2170,7 @@
             const pdf = new jsPDF('p', 'mm', 'a4');
             pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
             // pdf.save('华数i家业务周报-2025-07-18.pdf');
-            pdf.save(`华数i家业务周报-${getDate()}.pdf`);
+            pdf.save(`华数i家业务周报-${getDate(selectedDate)}.pdf`);
             document.getElementById('loading').style.display = 'none';
             document.getElementById('data-edit-area').style.display = 'block';
         });
@@ -2156,7 +2181,7 @@
             const canvas = await html2canvas(document.getElementById('report-content'));
             const link = document.createElement('a');
             // link.download = '华数i家业务周报-2025-07-18.png';
-            link.download = `华数i家业务周报-${getDate()}.png`;
+            link.download = `华数i家业务周报-${getDate(selectedDate)}.png`;
             link.href = canvas.toDataURL();
             link.click();
             document.getElementById('loading').style.display = 'none';
@@ -2266,13 +2291,17 @@
         function updateDateValue() {
             //初始化图表标题内容
             const footerTitle = document.getElementById('footer_title');
-            footerTitle.textContent = `© 2025 华数i家业务数据周报系统 | 数据更新时间：${getDate()} 18:00`;
+            footerTitle.textContent = `© 2025 华数i家业务数据周报系统 | 数据更新时间：${getDate(selectedDate)} 18:00`;
             const subtitle = document.getElementById('subtitle');
-            subtitle.textContent = `数据截止：${getChineseDate()} | 洞察业务增长新趋势`;
+            subtitle.textContent = `数据截止：${getChineseDate(selectedDate)} | 洞察业务增长新趋势`;
 
-            previousDayLabel = `${getPreviousDay()}活跃用户数`;
+            previousDayLabel = `${getPreviousDay(selectedDate, 1)}活跃用户数`;
             // 更新前一日活跃用户数标签
             document.getElementById('app_lastday_dau').textContent = previousDayLabel;
+
+            //更新广告收入月份标题
+            document.getElementById('app_ad_income_current_period').textContent = `${getPreviousMonth(selectedDate, 1)}数据`;
+            document.getElementById('app_ad_income_last_period').textContent = `${getPreviousMonth(selectedDate, 2)}数据`;
         }
 
         // 更新初始化编辑区域的函数以使用新的数据结构
@@ -2314,7 +2343,7 @@
                         `;
                     } else if (label.includes('Day1_UV_PV') || label.includes('Day2_UV_PV') || label.includes('Day3_UV_PV') || label.includes('Day4_UV_PV') || label.includes('Day5_UV_PV') || label.includes('Day6_UV_PV') || label.includes('Day7_UV_PV')) {
                         let x = label.charAt(3);
-                        let title = `${getPreviousNDay(8 - x)}`;
+                        let title = `${getPreviousDay(selectedDate, 8 - x)}`;
                         itemDiv.innerHTML = `
                         <label id="${label}">${title}：</label>
                         <input type="number" class="current-input" data-label="${label}">
@@ -2336,76 +2365,6 @@
                 sectionDiv.appendChild(gridDiv);
                 editContainer.appendChild(sectionDiv);
             });
-        }
-
-
-        /**
-         * 获取当前时间 xxxx-xx-xx
-         */
-        function getDate() {
-            let today = selectedDate;
-            let year = today.getFullYear();
-            let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
-            let day = today.getDate().toString().padStart(2, '0');
-            return date = `${year}-${month}-${day}`;
-        }
-
-        /**
-         * 获取中文日期
-         */
-        function getChineseDate() {
-            let today = selectedDate;
-            let year = today.getFullYear();
-            let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并确保是两位数
-            let day = today.getDate().toString().padStart(2, '0');
-            return date = `${year}年${month}月${day}日`;
-        }
-
-        /**
-         * 判断是否是小数
-         * @param {*} num 
-         * @returns 
-         */
-        function isDecimal(num) {
-            // 转换为数字后判断是否为有限数字且包含小数部分
-            const parsedNum = parseFloat(num);
-            return !isNaN(parsedNum) && isFinite(parsedNum) && parsedNum % 1 !== 0;
-        }
-
-        /**
-         * 返回前一天 格式：x月x日
-         */
-        function getPreviousDay() {
-            // 创建一个新的Date对象（默认为当前日期）
-            let date = selectedDate;
-
-            // 将日期设置为前一天
-            let previousDate = new Date(date);
-            previousDate.setDate(date.getDate() - 1);
-
-            // 获取月份和日期
-            let month = previousDate.getMonth() + 1; // 月份从0开始，需要加1
-            let day = previousDate.getDate();
-
-            // 返回格式化后的字符串
-            return `${month}月${day}日`;
-        }
-
-        function getPreviousNDay(n) {
-            // 创建一个新的Date对象（默认为当前日期）
-            let date = selectedDate;
-
-            // 将日期设置为前n天
-            let previousDate = new Date(date);
-            previousDate.setDate(date.getDate() - n);
-
-            // 获取月、日
-            let month = previousDate.getMonth() + 1; // 月份从0开始，需要加1
-            let day = previousDate.getDate();
-
-            // 返回日期字符串
-            return `${month}月${day}日`; //07月17日
-
         }
 
         /**
