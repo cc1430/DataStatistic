@@ -594,24 +594,6 @@
                                     id="app_mau_duplicated_rate">↑
                                     1.23%</span></td>
                         </tr>
-
-                        <tr>
-                            <th>数据指标</th>
-                            <th style="text-align:right;white-space:nowrap" id="app_ad_income_current_period">11月数据</th>
-                            <th style="text-align:right;white-space:nowrap" id="app_ad_income_last_period">10月数据</th>
-                            <th style="text-align:center">环比</th>
-                        </tr>
-                        <tr>
-                            <td>广告收入（元）</td>
-                            <td style="text-align:right;font-weight:600"><span id="app_ad_income">1,976.27</span>
-                            </td>
-                            <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="app_ad_income_last">0</span>
-                            </td>
-                            <td style="text-align:center"><span class="change-indicator positive" ,
-                                    id="app_ad_income_rate">↑
-                                    -</span></td>
-                        </tr>
                     </table>
                 </div>
             </div>
@@ -1286,12 +1268,6 @@
                         current: 'app_mau_duplicated',
                         last: 'app_mau_duplicated_last',
                         rate: 'app_mau_duplicated_rate'
-                    },
-                    {
-                        label: '广告收入（元）',
-                        current: 'app_ad_income',
-                        last: 'app_ad_income_last',
-                        rate: 'app_ad_income_rate'
                     }
                 ]
             },
@@ -2298,10 +2274,6 @@
             previousDayLabel = `${getPreviousDay(selectedDate, 1)}活跃用户数`;
             // 更新前一日活跃用户数标签
             document.getElementById('app_lastday_dau').textContent = previousDayLabel;
-
-            //更新广告收入月份标题
-            document.getElementById('app_ad_income_current_period').textContent = `${getPreviousMonth(selectedDate, 1)}数据`;
-            document.getElementById('app_ad_income_last_period').textContent = `${getPreviousMonth(selectedDate, 2)}数据`;
         }
 
         // 更新初始化编辑区域的函数以使用新的数据结构
