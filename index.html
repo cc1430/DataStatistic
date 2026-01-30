@@ -480,7 +480,8 @@
                         </tr>
                         <tr>
                             <td>华数i家业务总用户数</td>
-                            <td style="text-align:right;font-weight:600"><span id="wasu_ihome_total_users">24,097</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="wasu_ihome_total_users">24,097</span>
+                            </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="wasu_ihome_total_users_last">23,185</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
@@ -525,6 +526,22 @@
                                     id="apartment_user_last">5,612</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
                                     id="apartment_user_rate">↑ 1.23%</span></td>
+                        </tr>
+                        <tr>
+                            <td>健康场景用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="health_user">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="health_user_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="health_user_rate">↑ 1.23%</span></td>
+                        </tr>
+                        <tr>
+                            <td>网络场景用户数</td>
+                            <td style="text-align:right;font-weight:600"><span id="network_user">5,681</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="network_user_last">5,612</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="network_user_rate">↑ 1.23%</span></td>
                         </tr>
                     </table>
                 </div>
@@ -1227,6 +1244,18 @@
                         current: 'apartment_user',
                         last: 'apartment_user_last',
                         rate: 'apartment_user_rate'
+                    },
+                    {
+                        label: '健康场景用户数',
+                        current: 'health_user',
+                        last: 'health_user_last',
+                        rate: 'health_user_rate'
+                    },
+                    {
+                        label: '网络场景用户数',
+                        current: 'network_user',
+                        last: 'network_user_last',
+                        rate: 'network_user_rate'
                     }
                 ]
             },
@@ -2333,7 +2362,7 @@
 
                     gridDiv.appendChild(itemDiv);
                 }
-                
+
                 sectionDiv.appendChild(gridDiv);
                 editContainer.appendChild(sectionDiv);
             });
