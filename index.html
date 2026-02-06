@@ -851,6 +851,14 @@
                                     id="storage_activation_rate_rate">↑ 12.43%</span></td>
                         </tr>
                         <tr>
+                            <td>正在使用的云存储数</td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_current_usage">1,963</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="storage_current_usage_last">2,114</span></td>
+                            <td style="text-align:center"><span class="change-indicator negative"
+                                    id="storage_current_usage_rate">↓ 7.14%</span></td>
+                        </tr>
+                        <tr>
                             <td>未使用的云存储数</td>
                             <td style="text-align:right;font-weight:600"><span id="storage_unused">1,963</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
@@ -1480,6 +1488,12 @@
                         current: 'storage_activation_rate',
                         last: 'storage_activation_rate_last',
                         rate: 'storage_activation_rate_rate'
+                    },
+                    {
+                        label: '正在使用的云存储数',
+                        current: 'storage_current_usage',
+                        last: 'storage_current_usage_last',
+                        rate: 'storage_current_usage_rate'
                     },
                     {
                         label: '未使用的云存储数',
