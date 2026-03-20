@@ -739,10 +739,10 @@
                 </div>
             </div>
 
-            <!-- 云存储套餐订购 -->
+            <!-- 云存储套餐线上订购 -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-layer-group"></i> 云存储套餐订购
+                    <i class="fas fa-layer-group"></i> 云存储套餐线上订购
                 </div>
                 <div class="card-body">
                     <table class="data-table">
@@ -754,59 +754,118 @@
                         </tr>
                         <tr>
                             <td>7天事件包年</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_plan_7d_year">1,433</span>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="online_storage_plan_7d_year">1,433</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_7d_year_last">1,431</span></td>
+                                    id="online_storage_plan_7d_year_last">1,431</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="storage_plan_7d_year_rate">↑ 0.14%</span></td>
+                                    id="online_storage_plan_7d_year_rate">↑ 0.14%</span></td>
                         </tr>
                         <tr>
                             <td>7天事件单月订购</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_plan_7d_month">2,451</span>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="online_storage_plan_7d_month">2,451</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_7d_month_last">2,256</span></td>
+                                    id="online_storage_plan_7d_month_last">2,256</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral"
-                                    id="storage_plan_7d_month_rate">新增指标</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>7天事件连续包月</td>
-                            <td style="text-align:right;font-weight:600"><span
-                                    id="storage_plan_7d_continuous_month">2,451</span></td>
-                            <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_7d_continuous_month_last">2,256</span></td>
-                            <td style="text-align:center"><span class="change-indicator neutral" ,
-                                    id="storage_plan_7d_continuous_month_rate">新增指标</span></td>
+                                    id="online_storage_plan_7d_month_rate">新增指标</span></td>
                         </tr>
                         <tr>
                             <td>7天全时段包年</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_plan_all_year">188</span>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="online_storage_plan_all_year">188</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_all_year_last">187</span></td>
+                                    id="online_storage_plan_all_year_last">187</span></td>
                             <td style="text-align:center"><span class="change-indicator positive"
-                                    id="storage_plan_all_year_rate">↑ 0.53%</span></td>
+                                    id="online_storage_plan_all_year_rate">↑ 0.53%</span></td>
                         </tr>
                         <tr>
                             <td>7天全时段单月订购</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_plan_all_month">39</span>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="online_storage_plan_all_month">39</span>
                             </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_all_month_last">37</span></td>
+                                    id="online_storage_plan_all_month_last">37</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral" ,
-                                    id="storage_plan_all_month_rate">新增指标</span></td>
+                                    id="online_storage_plan_all_month_rate">新增指标</span></td>
                         </tr>
+                    </table>
+                </div>
+            </div>
 
+            <!-- 云存储套餐线下订购 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-layer-group"></i> 云存储套餐线下订购
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <tr>
+                            <th>套餐类型</th>
+                            <th style="text-align:right;white-space:nowrap">本周订购数</th>
+                            <th style="text-align:right;white-space:nowrap">上周订购数</th>
+                            <th style="text-align:center">环比</th>
+                        </tr>
+                        <tr>
+                            <td>7天事件包年</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="offline_storage_plan_7d_year">1,433</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="offline_storage_plan_7d_year_last">1,431</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="offline_storage_plan_7d_year_rate">↑ 0.14%</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天事件单月订购</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="offline_storage_plan_7d_month">2,451</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="offline_storage_plan_7d_month_last">2,256</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral"
+                                    id="offline_storage_plan_7d_month_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天事件连续包月</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="offline_storage_plan_7d_continuous_month">2,451</span></td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="offline_storage_plan_7d_continuous_month_last">2,256</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="offline_storage_plan_7d_continuous_month_rate">新增指标</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天全时段包年</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="offline_storage_plan_all_year">188</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="offline_storage_plan_all_year_last">187</span></td>
+                            <td style="text-align:center"><span class="change-indicator positive"
+                                    id="offline_storage_plan_all_year_rate">↑ 0.53%</span></td>
+                        </tr>
+                        <tr>
+                            <td>7天全时段单月订购</td>
+                            <td style="text-align:right;font-weight:600"><span
+                                    id="offline_storage_plan_all_month">39</span>
+                            </td>
+                            <td style="text-align:right;font-weight:600;color:#aaa"><span
+                                    id="offline_storage_plan_all_month_last">37</span></td>
+                            <td style="text-align:center"><span class="change-indicator neutral" ,
+                                    id="offline_storage_plan_all_month_rate">新增指标</span></td>
+                        </tr>
                         <tr>
                             <td>7天全时段连续包月</td>
                             <td style="text-align:right;font-weight:600"><span
-                                    id="storage_plan_all_continuous_month">39</span></td>
+                                    id="offline_storage_plan_all_continuous_month">39</span></td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
-                                    id="storage_plan_all_continuous_month_last">37</span></td>
+                                    id="offline_storage_plan_all_continuous_month_last">37</span></td>
                             <td style="text-align:center"><span class="change-indicator neutral" ,
-                                    id="storage_plan_all_continuous_month_rate">新增指标</span></td>
+                                    id="offline_storage_plan_all_continuous_month_rate">新增指标</span></td>
                         </tr>
                     </table>
                 </div>
@@ -844,7 +903,8 @@
                         </tr>
                         <tr>
                             <td>正在使用的云存储数</td>
-                            <td style="text-align:right;font-weight:600"><span id="storage_current_usage">1,963</span></td>
+                            <td style="text-align:right;font-weight:600"><span id="storage_current_usage">1,963</span>
+                            </td>
                             <td style="text-align:right;font-weight:600;color:#aaa"><span
                                     id="storage_current_usage_last">2,114</span></td>
                             <td style="text-align:center"><span class="change-indicator negative"
@@ -1199,9 +1259,16 @@
                 </div>
 
                 <div class="chart-card">
-                    <div class="chart-title">云存储套餐构成</div>
+                    <div class="chart-title">云存储线上订购套餐构成</div>
                     <div class="chart-wrapper">
-                        <canvas id="storage-pie-chart"></canvas>
+                        <canvas id="online-storage-pie-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">云存储线下订购套餐构成</div>
+                    <div class="chart-wrapper">
+                        <canvas id="offline-storage-pie-chart"></canvas>
                     </div>
                 </div>
 
@@ -1428,43 +1495,84 @@
                 ]
             },
             {
-                title: "云存储套餐订购",
+                title: "云存储套餐线上订购",
                 items: [
                     {
                         label: '7天事件云存包年',
-                        current: 'storage_plan_7d_year',
-                        last: 'storage_plan_7d_year_last',
-                        rate: 'storage_plan_7d_year_rate'
+                        current: 'online_storage_plan_7d_year',
+                        last: 'online_storage_plan_7d_year_last',
+                        rate: 'online_storage_plan_7d_year_rate'
                     },
                     {
                         label: '7天事件单月订购',
-                        current: 'storage_plan_7d_month',
-                        last: 'storage_plan_7d_month_last',
-                        rate: 'storage_plan_7d_month_rate'
+                        current: 'online_storage_plan_7d_month',
+                        last: 'online_storage_plan_7d_month_last',
+                        rate: 'online_storage_plan_7d_month_rate'
                     },
-                    {
-                        label: '7天事件云存连续包月',
-                        current: 'storage_plan_7d_continuous_month',
-                        last: 'storage_plan_7d_continuous_month_last',
-                        rate: 'storage_plan_7d_continuous_month_rate'
-                    },
+                    // {
+                    //     label: '7天事件云存连续包月',
+                    //     current: 'online_storage_plan_7d_continuous_month',
+                    //     last: 'online_storage_plan_7d_continuous_month_last',
+                    //     rate: 'online_storage_plan_7d_continuous_month_rate'
+                    // },
                     {
                         label: '7天全时段包年',
-                        current: 'storage_plan_all_year',
-                        last: 'storage_plan_all_year_last',
-                        rate: 'storage_plan_all_year_rate'
+                        current: 'online_storage_plan_all_year',
+                        last: 'online_storage_plan_all_year_last',
+                        rate: 'online_storage_plan_all_year_rate'
                     },
                     {
                         label: '7天全时段单月订购',
-                        current: 'storage_plan_all_month',
-                        last: 'storage_plan_all_month_last',
-                        rate: 'storage_plan_all_month_rate'
+                        current: 'online_storage_plan_all_month',
+                        last: 'online_storage_plan_all_month_last',
+                        rate: 'online_storage_plan_all_month_rate'
+                    },
+                    // {
+                    //     label: '7天全时段连续包月',
+                    //     current: 'storage_plan_all_continuous_month',
+                    //     last: 'storage_plan_all_continuous_month_last',
+                    //     rate: 'storage_plan_all_continuous_month_rate'
+                    // }
+                ]
+            },
+            {
+                title: "云存储套餐线下订购",
+                items: [
+                    {
+                        label: '7天事件云存包年',
+                        current: 'offline_storage_plan_7d_year',
+                        last: 'offline_storage_plan_7d_year_last',
+                        rate: 'offline_storage_plan_7d_year_rate'
+                    },
+                    {
+                        label: '7天事件单月订购',
+                        current: 'offline_storage_plan_7d_month',
+                        last: 'offline_storage_plan_7d_month_last',
+                        rate: 'offline_storage_plan_7d_month_rate'
+                    },
+                    {
+                        label: '7天事件云存连续包月',
+                        current: 'offline_storage_plan_7d_continuous_month',
+                        last: 'offline_storage_plan_7d_continuous_month_last',
+                        rate: 'offline_storage_plan_7d_continuous_month_rate'
+                    },
+                    {
+                        label: '7天全时段包年',
+                        current: 'offline_storage_plan_all_year',
+                        last: 'offline_storage_plan_all_year_last',
+                        rate: 'offline_storage_plan_all_year_rate'
+                    },
+                    {
+                        label: '7天全时段单月订购',
+                        current: 'offline_storage_plan_all_month',
+                        last: 'offline_storage_plan_all_month_last',
+                        rate: 'offline_storage_plan_all_month_rate'
                     },
                     {
                         label: '7天全时段连续包月',
-                        current: 'storage_plan_all_continuous_month',
-                        last: 'storage_plan_all_continuous_month_last',
-                        rate: 'storage_plan_all_continuous_month_rate'
+                        current: 'offline_storage_plan_all_continuous_month',
+                        last: 'offline_storage_plan_all_continuous_month_last',
+                        rate: 'offline_storage_plan_all_continuous_month_rate'
                     }
                 ]
             },
@@ -1800,7 +1908,7 @@
             }
         };
 
-        let albumTrendChart, cityChart, storagePieChart, overlapChart, senvenDayTrafficTrendChart, senvenDayTimeSlotTrafficTrendChart;
+        let albumTrendChart, cityChart, onlineStoragePieChart, offlineStoragePieChart, overlapChart, senvenDayTrafficTrendChart, senvenDayTimeSlotTrafficTrendChart;
 
         function initCharts() {
             // 加载保存的数据
@@ -1909,18 +2017,35 @@
                 }
             });
 
-            storagePieChart = new Chart(document.getElementById('storage-pie-chart'), {
+            onlineStoragePieChart = new Chart(document.getElementById('online-storage-pie-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['7天事件包年', '7天事件单月订购','7天全时段包年', '7天全时段单月订购'],
+                    datasets: [{
+                        data: [
+                            parseInt(document.getElementById('online_storage_plan_7d_year').textContent),
+                            parseInt(document.getElementById('online_storage_plan_7d_month').textContent),
+                            parseInt(document.getElementById('online_storage_plan_all_year').textContent),
+                            parseInt(document.getElementById('online_storage_plan_all_month').textContent)
+                        ],
+                        backgroundColor: ['#3498db', '#2ecc71', '#f236ed', '#f39c12']
+                    }]
+                },
+                options: chartOptions
+            });
+
+            offlineStoragePieChart = new Chart(document.getElementById('offline-storage-pie-chart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['7天事件包年', '7天事件单月订购', '7天事件云存连续包月', '7天全时段包年', '7天全时段单月订购', '7天全时段连续包月'],
                     datasets: [{
                         data: [
-                            parseInt(document.getElementById('storage_plan_7d_year').textContent),
-                            parseInt(document.getElementById('storage_plan_7d_month').textContent),
-                            parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent),
-                            parseInt(document.getElementById('storage_plan_all_year').textContent),
-                            parseInt(document.getElementById('storage_plan_all_month').textContent),
-                            parseInt(document.getElementById('storage_plan_all_continuous_month').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_7d_year').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_7d_month').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_7d_continuous_month').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_all_year').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_all_month').textContent),
+                            parseInt(document.getElementById('offline_storage_plan_all_continuous_month').textContent),
                         ],
                         backgroundColor: ['#3498db', '#2ecc71', '#f236ed', '#f39c12', '#9b59b6', '#f23658']
                     }]
@@ -2063,15 +2188,23 @@
             ];
             cityChart.update();
 
-            storagePieChart.data.datasets[0].data = [
-                parseInt(document.getElementById('storage_plan_7d_year').textContent.replace(/[^\d.-]/g, '')) || 0,
-                parseInt(document.getElementById('storage_plan_7d_month').textContent.replace(/[^\d.-]/g, '')) || 0,
-                parseInt(document.getElementById('storage_plan_7d_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0,
-                parseInt(document.getElementById('storage_plan_all_year').textContent.replace(/[^\d.-]/g, '')) || 0,
-                parseInt(document.getElementById('storage_plan_all_month').textContent.replace(/[^\d.-]/g, '')) || 0,
-                parseInt(document.getElementById('storage_plan_all_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0
+            onlineStoragePieChart.data.datasets[0].data = [
+                parseInt(document.getElementById('online_storage_plan_7d_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('online_storage_plan_7d_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('online_storage_plan_all_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('online_storage_plan_all_month').textContent.replace(/[^\d.-]/g, '')) || 0
             ];
-            storagePieChart.update();
+            onlineStoragePieChart.update();
+
+            offlineStoragePieChart.data.datasets[0].data = [
+                parseInt(document.getElementById('offline_storage_plan_7d_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('offline_storage_plan_7d_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('offline_storage_plan_7d_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('offline_storage_plan_all_year').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('offline_storage_plan_all_month').textContent.replace(/[^\d.-]/g, '')) || 0,
+                parseInt(document.getElementById('offline_storage_plan_all_continuous_month').textContent.replace(/[^\d.-]/g, '')) || 0
+            ];
+            offlineStoragePieChart.update();
 
             overlapChart.data.datasets[0].data = [
                 parseInt(document.getElementById('overlap_security').textContent.replace(/[^\d.-]/g, '')) || 0,
@@ -2255,10 +2388,6 @@
                     } catch (error) {
                         console.error('Excel导入失败:', error);
                     }
-
-
-
-
                 };
                 reader.readAsArrayBuffer(file);
             };
